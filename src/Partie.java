@@ -34,21 +34,19 @@ public class Partie {
 	public void deroulementPrincipal(Joueur player,int count){
 		if(count==0) {
 			repartitionArmees(player);
-		}else if(player.getArmyAvailable().size()!=0) {
+		}else if(false/*player.getArmyAvailable().size()!=0*/) {
 			placerArmees(player);
 		}else {
 			deplacerArmees(player);
 		}
 	}
 	
-	public void deplacementTerritoireEnnemi(Joueur player, Territoire territoireDepart, Territoire territoireDestination) {
-		int maxArmeesATT;
-		ArrayList<Unite> bataillonAttaquant = new ArrayList<Unite>();
-		ArrayList<Unite> bataillonDefendant = new ArrayList<Unite>();
-		ArrayList<Unite> armeesDefenseur = territoireDestination.getJoueur().getArmy();
+	public void deplacementTerritoireEnnemi(Joueur player, ArrayList<Unite> bataillonAttaquant, Territoire territoireDepart, Territoire territoireDestination) {
 		
-		bataillonDefendant = setArmyAndPower(armeesDefenseur,false); //choisit automatiquement les unitÈs pour la dÈfense
-		bataillonAttaquant  ; //CHOIX DES UNITES PAR L'ATTAQUANT => NEED FONCTION
+		ArrayList<Unite> bataillonDefendant = new ArrayList<Unite>();
+		ArrayList<Unite> armeesDefenseur = territoireDestination.getArmy();
+		
+		bataillonDefendant = setArmyAndPower(armeesDefenseur,false); //choisit automatiquement les unit√©s pour la d√©fense
 		bataillonAttaquant = setArmyAndPower(bataillonAttaquant,true);
 		
 		Joueur playerDef = territoireDestination.getJoueur();
@@ -56,17 +54,27 @@ public class Partie {
 		affrontement(bataillonAttaquant,bataillonDefendant,playerAtt,playerDef);
 	}
 	
+	public void deplacementTerritoireAllie(Joueur player, ArrayList<Unite> unitesADeplacer, Territoire territoireDepart,Territoire territoireDestination){
+		for(Unite unit : unitesADeplacer) {
+			territoireDepart.deleteArmy(unit);
+			unit.setID(territoireDestination.getArmy().size()); //Devrait r√©soudre les probl√®mes d'ID
+			territoireDestination.addArmy(unit);
+		}
+	}
+	
 	public void deplacerArmees(Joueur player) {
 		
 		//ALED
 		
-		Territoire territoireDepart;
-		Territoire territoireDestination;
+		Territoire territoireDepart; //A OBTENIR
+		Territoire territoireDestination; //A OBTENIR
+		ArrayList<Unite> unitesADeplacer; //A OBTENIR
+		ArrayList<Unite> bataillonAttaquant; //A OBTENIR
 		
-		if(true/*deplacement vers un territore alliÈ*/) {
-			deplacementTerritoireAllie(player,territoireDepart,territoireDestination);
+		if(true/*deplacement vers un territore alli√©*/) {
+			deplacementTerritoireAllie(player,unitesADeplacer,territoireDepart,territoireDestination);
 		}else if(true/*deplacement vers un territoire ennemi*/) {
-			deplacementTerritoireEnnemi(player,territoireDepart,territoireDestination);
+			deplacementTerritoireEnnemi(player,bataillonAttaquant,territoireDepart,territoireDestination);
 		}else {
 			System.out.println("madafacking erreur");
 		}
@@ -74,7 +82,8 @@ public class Partie {
 	
 	public void placerArmees(Joueur player) {
 		
-		//ALED
+		//ALED	
+		//NOMBRE D'UNITES A DEPLACER
 		
 	}
 	
@@ -90,6 +99,7 @@ public class Partie {
 		int renfortsJoueur = Math.max(firstCondition + secondCondition + thirdCondition,2);
 		
 		while(renfortsJoueur!=0) {
+			
 			renfortsJoueur = askRenfort(player,renfortsJoueur);
 		}
 	}
@@ -144,9 +154,9 @@ public class Partie {
 			player.addUnite(newSoldat);
 			renfortsJoueur = renfortsJoueur - 1;
 			
-		}else {
+		}/*else {
 			System.out.println("Erreur : renfortsJoueur = 0 ?");
-		}
+		}*/
 		return renfortsJoueur;
 	}
 	
@@ -166,15 +176,15 @@ public class Partie {
 
 		ArrayList<Territoire> territoires = player.getTerritoire();
 		for(Territoire pays : territoires) {
-			if(pays.getRegion().trim().equals("AmÈriquedunord")) {
+			if(pays.getRegion().trim().equals("Am√©riquedunord")) {
 				AdN++;
-			}else if(pays.getRegion().trim().equals("AmÈriquedusud")) {
+			}else if(pays.getRegion().trim().equals("Am√©riquedusud")) {
 				AdS++;
 			}else if(pays.getRegion().trim().equals("Asie")) {
 				Asie++;
 			}else if(pays.getRegion().trim().equals("Europe")) {
 				Europe++;
-			}else if(pays.getRegion().trim().equals("OcÈanie")) {
+			}else if(pays.getRegion().trim().equals("Oc√©anie")) {
 				Oceanie++;
 			}else if(pays.getRegion().trim().equals("Afrique")){
 				Afrique++;
@@ -215,7 +225,7 @@ public class Partie {
 					int[] listeVoisins = pays.getVoisins();
 					System.out.println(pays.getNom());
 					System.out.println("TAILLE "+listeVoisins.length);
-					/* Fonction qui affiche les donnÈes du territoire */
+					/* Fonction qui affiche les donn√©es du territoire */
 					/* AFFICHER INFOS DE TOUS LES VOISINS ? OU SEULEMENT LE PAYS ATTAQUANT ?*/
 					for(int j=0;j<listeVoisins.length;j++) {
 						if(territoires.get(listeVoisins[j]).getJoueur() == player) {
@@ -406,7 +416,7 @@ public class Partie {
 	}
 	
 	public ArrayList<Unite> deleteUnit(Unite unite,ArrayList<Unite> armee,Joueur player) {
-		// fonction ‡ coder // 
+		// fonction √† coder // 
 		unite.setOnField(false);
 		armee.remove(unite.getID());
 		player.getArmy().remove(unite.getID());

@@ -1,0 +1,42 @@
+54  575 99 Amérique du nord 99 Alaska 99
+150 575 99 Amérique du nord 99 Territoire du nord ouest 99
+339  605 99 Amérique du nord 99 Groenland 99
+139  517 99 Amérique du nord 99 Alberta 99
+207  505 99 Amérique du nord 99 Ontario 99 
+272  502 99 Amérique du nord 99 Quebec 99
+139  441 99 Amérique du nord 99 Etat de l'ouest 99
+220  409 99 Amérique du nord 99 Kromissix 99
+175  326 99 Amérique du nord 99 Amérique centrale 99
+218  292 99 Amérique du sud 99 Vénézula 99
+237  192 99 Amérique du sud 99 Pérou 99
+301  219 99 Amérique du sud 99 Brésil 99
+247  106 99 Amérique du sud 99 Argentine 99
+423  542 99 Europe 99 Islande 99
+404  468 99 Europe 99 Grande Bretagne 99
+490  531 99 Europe 99 TolierLand 99
+586  482 99 Europe 99 Ukraine 99
+433  391 99 Europe 99 Gaule occidentale 99
+492  448 99 Europe 99 Gaule du nord 99
+523  374 99 Europe 99 Gaule du sud 99
+695  521 99 Asie 99 Oural 99
+749  555 99 Asie 99 Sibérie 99
+826  587 99 Asie 99 Yakoutie  99
+908  586 99 Asie 99 Tchikita 99
+671  426 99 Asie 99 Afghanistan 99
+812  502 99 Asie 99 Tchita 99
+935  436 99 Asie 99 Japon 99 
+610  309 99 Asie 99 Moyen Orient 99
+731  324 99 Asie 99 Inde  99
+796  376 99 Asie 99 Chine  99
+833  440 99 Asie 99 Mongolie 99
+819  290 99 Asie 99 Siam 99
+454  256 99 Afrique 99 Afrique du nord 99
+538  276 99 Afrique 99 Egypte 99
+536  162 99 Afrique 99 Congo 99
+579  211 99 Afrique 99 Afrique Occidentale 99
+539  71 99 Afrique 99 Afrique du Sud 99
+638  71 99 Afrique 99 Valachangix 99
+838  181 99 Océanie 99 Indonésie 99
+927  202 99 Océanie 99 Nouvelle Guinée 99
+876  70 99 Océanie 99 Australie Occidentale 99
+971 67 99 Océanie 99 Australie Orientale 99

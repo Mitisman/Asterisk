@@ -91,6 +91,10 @@ public class Territoire {
 		this.army.add(army);
 	}
 	
+	public void deleteArmy(Unite army) {
+		this.army.remove(army);
+	}
+	
 	public int getRayon() {
 		return rayon;
 	}

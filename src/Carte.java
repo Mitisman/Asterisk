@@ -73,8 +73,8 @@ public class Carte {
 						StdDraw.setFont();
 						for(int k=0;k<listeregion.length;k++) {
 							Territoire ta = this.territoire.get(k);
-							j = ta.getJoueur();
-							StdDraw.setPenColor(j.getCouleur());
+							Joueur joueur = ta.getJoueur();
+							StdDraw.setPenColor(joueur.getCouleur());
 							StdDraw.filledCircle(listeregion[k][0], listeregion[k][1], 15);
 							StdDraw.setPenColor(Color.WHITE);
 							StdDraw.text(listeregion[k][0]-0.1, listeregion[k][1]-0.8, ""+ ta.getArmy().size());
@@ -98,7 +98,7 @@ public class Carte {
 						StdDraw.setFont(font);
 						StdDraw.setPenColor(Color.BLACK);
 						StdDraw.textLeft(1205, 560, t.getNom());
-						StdDraw.textLeft(1205, 540, " à " + t.getJoueur().getNom());
+						StdDraw.textLeft(1205, 540, " Ã  " + t.getJoueur().getNom());
 						StdDraw.textLeft(1205, 520, " En" + t.getRegion());
 						
 						int ncanon = 0;
@@ -117,9 +117,9 @@ public class Carte {
 						StdDraw.textLeft(1205, 460, " Avec " + nsoldat +" Soldat" );
 						StdDraw.textLeft(1205, 430, " Avec " + ncavalier +" Cavalier" );
 						StdDraw.textLeft(1205, 400, " Avec " + ncanon +" Canon" );
-						StdDraw.textLeft(1205, 370, " Encore "+ t.getJoueur().getArmyAvailable().size()+ " armée(s) à placer");
+						StdDraw.textLeft(1205, 370, " Encore "+ t.getJoueur().getArmyAvailable().size()+ " armÃ©e(s) Ã  placer");
 						int x = t.getJoueur().getArmy().size() - t.getJoueur().getArmyAvailable().size();
-						StdDraw.textLeft(1205, 340,  " "+ x +" armée(s) sur " + t.getJoueur().getTerritoire().size() +" Terrritoires" );
+						StdDraw.textLeft(1205, 340,  " "+ x +" armÃ©e(s) sur " + t.getJoueur().getTerritoire().size() +" Terrritoires" );
 						StdDraw.textLeft(1205, 310, " Pour " + t.getJoueur().getNom());
 						StdDraw.show();
 					}
@@ -191,7 +191,7 @@ public class Carte {
 				StdDraw.setFont(font);
 				StdDraw.setPenColor(Color.BLACK);
 				StdDraw.textLeft(1205, 560, t.getNom());
-				StdDraw.textLeft(1205, 540, " à " + t.getJoueur().getNom());
+				StdDraw.textLeft(1205, 540, " Ã  " + t.getJoueur().getNom());
 				StdDraw.textLeft(1205, 520, " En" + t.getRegion());
 				
 				int ncanon = 0;
@@ -210,9 +210,9 @@ public class Carte {
 				StdDraw.textLeft(1205, 460, " Avec " + nsoldat +" Soldat" );
 				StdDraw.textLeft(1205, 430, " Avec " + ncavalier +" Cavalier" );
 				StdDraw.textLeft(1205, 400, " Avec " + ncanon +" Canon" );
-				StdDraw.textLeft(1205, 370, " Encore "+ t.getJoueur().getArmyAvailable().size()+ " armée(s) à placer");
+				StdDraw.textLeft(1205, 370, " Encore "+ t.getJoueur().getArmyAvailable().size()+ " armÃ©e(s) Ã  placer");
 				int x = t.getJoueur().getArmy().size() - t.getJoueur().getArmyAvailable().size();
-				StdDraw.textLeft(1205, 340,  " "+ x +" armée(s) sur " + t.getJoueur().getTerritoire().size() +" Terrritoires" );
+				StdDraw.textLeft(1205, 340,  " "+ x +" armÃ©e(s) sur " + t.getJoueur().getTerritoire().size() +" Terrritoires" );
 				StdDraw.textLeft(1205, 310, " Pour " + t.getJoueur().getNom());
 				StdDraw.show();
 			}

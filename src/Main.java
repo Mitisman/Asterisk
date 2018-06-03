@@ -596,7 +596,7 @@ public class Main {
 					//newGame.deroulementPrincipal(player,count);
 					count++;
 				}
-				gameOver = newGame.checkWin(player);
+				gameOver = newGame.checkWin(player,m);
 			}
 		}
 		//FIN DE LA PARTIE

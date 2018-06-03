@@ -278,9 +278,9 @@ public class Partie {
 		return deatharray;
 	}
 					
-	public boolean checkWin(Joueur player) {
+	public boolean checkWin(Joueur player,Mission mission) {
 		
-		if(true/*conditions de victoire (VICTOIRE NORMALE || MISSION SECRETE)*/){
+		if(mission.isDone(player)){
 			victory(player);
 			return true;
 		}

@@ -40,7 +40,15 @@ public class Unite {
 	public int getCout() {
 		return cout;
 	}
-
+	
+	public int getMvtRestants() {
+		return MvtRestants;
+	}
+	
+	public void setMvtRestants(int nbr) {
+		this.MvtRestants=nbr;
+	}
+	
 	public Unite(boolean onField, String type, int iD, int power, int prioriteDEF, int prioriteATT, int cout) {
 		super();
 		this.onField = onField;
@@ -59,6 +67,7 @@ public class Unite {
 	int prioriteDEF;
 	int prioriteATT;
 	int cout;
+	int MvtRestants;
 	
 	
 }

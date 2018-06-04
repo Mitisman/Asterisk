@@ -64,23 +64,25 @@ public class Mission {
 	public boolean isDone(Joueur player) {
 		boolean principal = mCCheck(player);
 		boolean secondaire = false;
-		if(player.getMission().trim().equals(mA.trim())) {
-			secondaire = mACheck(player);
-		}else if(player.getMission().trim().equals(mB.trim())){
-			secondaire = mBCheck(player);
-		}else if(player.getMission().trim().equals(mD.trim())){
-			secondaire = mDCheck(player);
-		}else if(player.getMission().trim().equals(mE.trim())){
-			secondaire = mECheck(player);
-		}else if(player.getMission().trim().equals(mF.trim())){
-			secondaire = mFCheck(player);
-		}else if(player.getMission().trim().equals(mG.trim())){
-			secondaire = mGCheck(player);
-		}else if(player.getMission().trim().equals(mH.trim())){
-			secondaire = mHCheck(player);
-		}else {
-			System.out.println("COMMENT CA T'AS PAS DE MISSION?");
-		}
+				if(player.getMission().trim().equals(mA.trim())) {
+					secondaire = mACheck(player);
+				}else if(player.getMission().trim().equals(mB.trim())){
+					secondaire = mBCheck(player);
+				}else if(player.getMission().trim().equals(mD.trim())){
+					secondaire = mDCheck(player);
+				}else if(player.getMission().trim().equals(mE.trim())){
+					secondaire = mECheck(player);
+				}else if(player.getMission().trim().equals(mF.trim())){
+					secondaire = mFCheck(player);
+				}else if(player.getMission().trim().equals(mG.trim())){
+					secondaire = mGCheck(player);
+				}else if(player.getMission().trim().equals(mH.trim())){
+					secondaire = mHCheck(player);
+				}else {
+					System.out.println("COMMENT CA T'AS PAS DE MISSION?");
+				}
+		
+		
 		return principal && secondaire;
 	}
 	
@@ -93,9 +95,9 @@ public class Mission {
 		int Afrique=0;
 		ArrayList<Territoire> territoires = player.getTerritoire();
 		for(Territoire pays : territoires) {
-			if(pays.getRegion().trim().equals("Amériquedunord")) {
+			if(pays.getRegion().trim().equals("Amérique du nord")) {
 				AdN++;
-			}else if(pays.getRegion().trim().equals("Amériquedusud")) {
+			}else if(pays.getRegion().trim().equals("Amérique du sud")) {
 				AdS++;
 			}else if(pays.getRegion().trim().equals("Asie")) {
 				check++;
@@ -106,7 +108,7 @@ public class Mission {
 			}else if(pays.getRegion().trim().equals("Afrique")){
 				Afrique++;
 			}else {
-				System.out.println("There might be a problem");
+				System.out.println("There might INDEED be a problem");
 			}
 		}
 		if ((check==12) && ( AdN==9 || AdS==4 || Europe==7 || Oceanie==4 || Afrique==6 )) {
@@ -126,9 +128,9 @@ public class Mission {
 		
 		ArrayList<Territoire> territoires = player.getTerritoire();
 		for(Territoire pays : territoires) {
-			if(pays.getRegion().trim().equals("Amériquedunord")) {
+			if(pays.getRegion().trim().equals("Amérique du nord")) {
 				AdN++;
-			}else if(pays.getRegion().trim().equals("Amériquedusud")) {
+			}else if(pays.getRegion().trim().equals("Amérique du sud")) {
 				AdS++;
 			}else if(pays.getRegion().trim().equals("Asie")) {
 				Asie++;

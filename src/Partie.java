@@ -69,7 +69,7 @@ public class Partie {
 		Territoire territoireDepart; //A OBTENIR
 		Territoire territoireDestination; //A OBTENIR
 		ArrayList<Unite> unitesADeplacer; //A OBTENIR
-		ArrayList<Unite> bataillonAttaquant; //A OBTENIR
+		ArrayList<Unite> bataillonAttaquant; //A OBTENIR=
 		
 		if(true/*deplacement vers un territore allié*/) {
 			deplacementTerritoireAllie(player,unitesADeplacer,territoireDepart,territoireDestination);
@@ -94,7 +94,7 @@ public class Partie {
 		
 		int secondCondition = regionComplete(player);
 		
-		int thirdCondition = 0; //NEED NOMBRE TERRITOIRES CAPTURES
+		int thirdCondition = player.getTerritoiresConquis();
 		
 		int renfortsJoueur = Math.max(firstCondition + secondCondition + thirdCondition,2);
 		
@@ -122,7 +122,7 @@ public class Partie {
 			}
 		}
 		if(renfortsJoueur >= 7) {
-			//PROPOSER CANON OU CAVALIER OU SOLDAT + CODE DE CHOIX DU JOUEUR (au click sur une photo?)
+			//AFFICHER IMAGE CANON ROUGE OU CAVALIER ROUGE OU SOLDAT ROUGE
 			
 			Unite newCanon = new Unite(false,"Canon",IDcanon+1,0,2,3,7); //CHOISIR UN DES TROIS CHOIX
 			player.addUnite(newCanon);
@@ -137,7 +137,7 @@ public class Partie {
 			renfortsJoueur = renfortsJoueur - 1;
 			
 		}else if(renfortsJoueur >= 3) {
-			//PROPOSER CAVALIER OU SOLDAT + CODE DE CHOIX DU JOUEUR (au click sur une photo?) 
+			//AFFICHER CAVALIER ROUGE OU SOLDAT ROUGE
 			
 			Unite newCavalier = new Unite(false,"Cavalier",IDcavalier+1,0,3,1,3); //CHOSIR UN DES DEUX CHOIX
 			player.addUnite(newCavalier);
@@ -148,15 +148,15 @@ public class Partie {
 			renfortsJoueur = renfortsJoueur - 1;
 			
 		}else if(renfortsJoueur >=1) {
-			//PROPOSER SOLDAT + CODE DE CHOIX DU JOUEUR (au click)
+			//AFFICHER SOLDAT ROUGE
 			
 			Unite newSoldat = new Unite(false,"Soldat",IDsoldat+1,0,1,2,1);
 			player.addUnite(newSoldat);
 			renfortsJoueur = renfortsJoueur - 1;
 			
-		}/*else {
+		}else {
 			System.out.println("Erreur : renfortsJoueur = 0 ?");
-		}*/
+		}
 		return renfortsJoueur;
 	}
 	
@@ -176,9 +176,9 @@ public class Partie {
 
 		ArrayList<Territoire> territoires = player.getTerritoire();
 		for(Territoire pays : territoires) {
-			if(pays.getRegion().trim().equals("Amériquedunord")) {
+			if(pays.getRegion().trim().equals("Amérique du nord")) {
 				AdN++;
-			}else if(pays.getRegion().trim().equals("Amériquedusud")) {
+			}else if(pays.getRegion().trim().equals("Amérique du sud")) {
 				AdS++;
 			}else if(pays.getRegion().trim().equals("Asie")) {
 				Asie++;
@@ -279,9 +279,11 @@ public class Partie {
 	}
 					
 	public boolean checkWin(Joueur player,Mission mission) {
-		
-		if(mission.isDone(player)){
-			victory(player);
+		ArrayList<Joueur> bonJoueur = new ArrayList<Joueur>();
+		bonJoueur.add(player);
+		Mission newMission = new Mission(bonJoueur);
+		if(newMission.isDone(player)){
+			victory(player);	
 			return true;
 		}
 		return false;

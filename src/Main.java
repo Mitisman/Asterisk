@@ -592,10 +592,12 @@ public class Main {
 			for(Joueur player : joueur) {
 				int count=0;
 				while(!(StdDraw.isMousePressed() && StdDraw.mouseX()>=1233 && StdDraw.mouseY()<=1620 && StdDraw.mouseY()>=84 && StdDraw.mouseY()<=125)) {
+					
 					map.Maj(newGame,player);
 					//newGame.deroulementPrincipal(player,count);
 					count++;
 				}
+				while(StdDraw.isMousePressed()){}
 				gameOver = newGame.checkWin(player,m);
 			}
 		}

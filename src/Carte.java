@@ -62,7 +62,7 @@ public class Carte {
 	
 	public void Maj(Partie game, Joueur j) {
 		ArrayList<Integer> quickfix = game.selectionPays(j,this.territoire);
-		if(quickfix.get(0) == 1) {
+		if(quickfix.get(0) != 0) {
 			reset = true;
 			while(!StdDraw.isMousePressed()) {
 					for(int i = 0;i<this.territoire.size();i++) {
@@ -144,6 +144,33 @@ public class Carte {
 						}
 					}
 				}
+			int allie=0;
+			Territoire attaquant = territoire.get(quickfix.get(0));
+			Territoire defenseur;
+			for(int k = quickfix.size()-1; k>0;k--) {
+				if(StdDraw.mouseX()>= this.territoire.get(quickfix.get(k)).getX()-10 && StdDraw.mouseX()<= this.territoire.get(quickfix.get(k)).getX()+10 && StdDraw.mouseY()>= this.territoire.get(quickfix.get(k)).getY()-10 && StdDraw.mouseY() <= this.territoire.get(quickfix.get(k)).getY()+10) {
+					defenseur = this.territoire.get(quickfix.get(k));
+					for(int l = j.getTerritoire().size()-1;l>=0;l--) {
+						if(j.getTerritoire().get(l) == this.territoire.get(quickfix.get(k))) {
+							allie++;
+							break;
+						}
+					}
+					
+					if(allie!=0) {
+						System.out.println("PAYS DEPART : " + attaquant.getNom());
+						System.out.println("PAYS ALLIE DESTINATION : " + defenseur.getNom());
+						System.out.println("DEFENSE"); // ICI DEPLACEMENT ALLIÉ
+						game.getUnitesADeplacer(j, attaquant, defenseur);
+						
+					}else {
+						System.out.println("PAYS ATTAQUANT : " + attaquant.getNom());
+						System.out.println("PAYS DEFENSEUR : " + defenseur.getNom());
+						System.out.println("ATTAQUE"); // ICI ATTAQUE
+						game.getBattaillonAttaquant(j, attaquant, defenseur);
+					}
+				}
+			}
 			} else {
 				for(int i = 0;i<this.territoire.size();i++) {
 					Territoire t = this.territoire.get(i);

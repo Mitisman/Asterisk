@@ -11,8 +11,9 @@ public class Carte {
 	private final String carte = new String("risk.jpg");
 	private final String carteS = new String("riskF.jpg");
 	private static Font font = new Font("Comic Strip MN", Font.TRUETYPE_FONT, 20);
+	private static Font minuscule = new Font("Comic Strip MN", Font.TRUETYPE_FONT, 17);
 	protected ArrayList<Territoire> territoire;
-	private boolean draw = false;
+	private boolean reset = true;
 	private ArrayList<String> nterritoire;
 	private ArrayList<String> nregion;
 
@@ -60,168 +61,132 @@ public class Carte {
 	//LEUR COULEUR ET ON REVIENT COMME AVANT). C'EST CLAIR :) ?
 	
 	public void Maj(Partie game, Joueur j) {
-		System.out.println(StdDraw.isMousePressed());
 		ArrayList<Integer> quickfix = game.selectionPays(j,this.territoire);
 		if(quickfix.get(0) == 1) {
+			reset = true;
 			while(!StdDraw.isMousePressed()) {
+					for(int i = 0;i<this.territoire.size();i++) {
+						Territoire t = territoire.get(i);
+						int[] territoire = t.getPos();
+						if(territoire[0]-10<=(int)StdDraw.mouseX() && (int)StdDraw.mouseX()<=territoire[0]+10 && territoire[1]-10<=(int)StdDraw.mouseY() && (int)StdDraw.mouseY()<=territoire[1]+10 ) {
+							StdDraw.clear();
+							if(StdDraw.mouseX()>=1233 && StdDraw.mouseY()<=1620 && StdDraw.mouseY()>=84 && StdDraw.mouseY()<=125) {
+								StdDraw.picture(largeur/2, hauteur/2, carteS);
+								
+							} else {
+								System.out.println("YES");
+								StdDraw.picture(largeur/2, hauteur/2, carte);
+							}
+							StdDraw.setFont();
+							for(int k=0;k<listeregion.length;k++) {
+								Territoire ta = this.territoire.get(k);
+								Joueur joueur = ta.getJoueur();
+								StdDraw.setPenColor(joueur.getCouleur());
+								StdDraw.filledCircle(listeregion[k][0], listeregion[k][1], 15);
+								StdDraw.setPenColor(Color.WHITE);
+								StdDraw.text(listeregion[k][0]-0.1, listeregion[k][1]-0.8, ""+ ta.getArmy().size());
+							}
+							for(int n = quickfix.size()-1;n>0;n--) {
+								if(this.territoire.get(quickfix.get(n)).getJoueur() == j) {
+									StdDraw.setPenColor(Color.DARK_GRAY);
+									this.territoire.get(quickfix.get(n)).setDeplacable(true);
+									StdDraw.filledCircle(this.territoire.get(quickfix.get(n)).getPos()[0], this.territoire.get(quickfix.get(n)).getPos()[1] , 15);
+									StdDraw.setPenColor(Color.WHITE);
+									StdDraw.text(this.territoire.get(quickfix.get(n)).getPos()[0]-0.1, this.territoire.get(quickfix.get(n)).getPos()[1]-0.8, "" + this.territoire.get(quickfix.get(n)).getArmy().size());
+								} else {
+									StdDraw.setPenColor(Color.BLACK);
+									this.territoire.get(quickfix.get(n)).setAttaquable(true);
+									StdDraw.filledCircle(this.territoire.get(quickfix.get(n)).getPos()[0], this.territoire.get(quickfix.get(n)).getPos()[1] , 15);
+									StdDraw.setPenColor(Color.WHITE);
+									StdDraw.text(this.territoire.get(quickfix.get(n)).getPos()[0]-0.1, this.territoire.get(quickfix.get(n)).getPos()[1]-0.8, "" + this.territoire.get(quickfix.get(n)).getArmy().size());
+								}
+							}
+							StdDraw.setFont(font);
+							StdDraw.setPenColor(j.getCouleur());
+							StdDraw.filledCircle(1230, 560, 10);
+							StdDraw.setPenColor(Color.BLACK);
+							StdDraw.textLeft(1245, 560, ""+j.getNom() + " Objectif : ");
+							StdDraw.setFont(minuscule);
+							if(j.getMission().length()>31) {  //Pour éviter que la mission sorte du canvas :o
+								String[] morceau = {j.getMission().substring(0, 31),j.getMission().substring(31)};
+								StdDraw.textLeft(1220, 530, " " + morceau[0]);
+								StdDraw.textLeft(1220, 510, " " + morceau[1]);
+							} else {
+								StdDraw.textLeft(1220, 530, " " + j.getMission());
+							}
+							StdDraw.setFont(font);
+							StdDraw.textLeft(1205, 450, " Encore "+ j.getArmyAvailable().size()+ " armée(s) à placer");
+							int x = j.getArmy().size() - j.getArmyAvailable().size();
+							StdDraw.textLeft(1205, 420,  " "+ x +" armée(s) sur " + j.getTerritoire().size() +" Terrritoires" );
+							
+							//Info sur la région survole
+							StdDraw.setPenColor(Color.BLACK);
+							StdDraw.textLeft(1205, 270, t.getNom() +"à " + t.getJoueur().getNom());
+							StdDraw.textLeft(1205, 240, " En" + t.getRegion());
+							
+							int ncanon = 0;
+							int ncavalier = 0;
+							int nsoldat = 0;
+							for(int k = t.getArmy().size()-1;k>=0;k--) {
+								Unite u = t.getArmy().get(k);
+								if(u.type=="Soldat") {
+									nsoldat++;
+								} else if(u.type == "Canon") {
+									ncanon++;
+								} else {
+									ncavalier++;
+								}
+							}
+							StdDraw.textLeft(1205, 210, " Avec " + nsoldat +" Soldat" );
+							StdDraw.textLeft(1205, 180, " Avec " + ncavalier +" Cavalier" );
+							StdDraw.textLeft(1205, 150, " Avec " + ncanon +" Canon" );
+							StdDraw.show();
+						}
+					}
+				}
+			} else {
 				for(int i = 0;i<this.territoire.size();i++) {
-					Territoire t = territoire.get(i);
-					int[] territoire = t.getPos();
-					if(territoire[0]-10<=(int)StdDraw.mouseX() && (int)StdDraw.mouseX()<=territoire[0]+10 && territoire[1]-10<=(int)StdDraw.mouseY() && (int)StdDraw.mouseY()<=territoire[1]+10 ) {
-						StdDraw.clear();
-						StdDraw.picture(largeur/2, hauteur/2, carte);
-						StdDraw.setFont();
-						for(int k=0;k<listeregion.length;k++) {
-							Territoire ta = this.territoire.get(k);
-							Joueur joueur = ta.getJoueur();
-							StdDraw.setPenColor(joueur.getCouleur());
-							StdDraw.filledCircle(listeregion[k][0], listeregion[k][1], 15);
-							StdDraw.setPenColor(Color.WHITE);
-							StdDraw.text(listeregion[k][0]-0.1, listeregion[k][1]-0.8, ""+ ta.getArmy().size());
-						}
-						for(int n = quickfix.size()-1;n>0;n--) {
-							if(this.territoire.get(quickfix.get(n)).getJoueur() == j) {
-								StdDraw.setPenColor(Color.DARK_GRAY);
-								this.territoire.get(quickfix.get(n)).setDeplacable(true);
-								StdDraw.filledCircle(this.territoire.get(quickfix.get(n)).getPos()[0], this.territoire.get(quickfix.get(n)).getPos()[1] , 15);
-								StdDraw.setPenColor(Color.WHITE);
-								StdDraw.text(this.territoire.get(quickfix.get(n)).getPos()[0]-0.1, this.territoire.get(quickfix.get(n)).getPos()[1]-0.8, "" + this.territoire.get(quickfix.get(n)).getArmy().size());
-							} else {
-								StdDraw.setPenColor(Color.BLACK);
-								this.territoire.get(quickfix.get(n)).setAttaquable(true);
-								StdDraw.filledCircle(this.territoire.get(quickfix.get(n)).getPos()[0], this.territoire.get(quickfix.get(n)).getPos()[1] , 15);
-								StdDraw.setPenColor(Color.WHITE);
-								StdDraw.text(this.territoire.get(quickfix.get(n)).getPos()[0]-0.1, this.territoire.get(quickfix.get(n)).getPos()[1]-0.8, "" + this.territoire.get(quickfix.get(n)).getArmy().size());
-							}
-						}
-						
-						StdDraw.setFont(font);
-						StdDraw.setPenColor(Color.BLACK);
-						StdDraw.textLeft(1205, 560, t.getNom());
-						StdDraw.textLeft(1205, 540, " à " + t.getJoueur().getNom());
-						StdDraw.textLeft(1205, 520, " En" + t.getRegion());
-						
-						int ncanon = 0;
-						int ncavalier = 0;
-						int nsoldat = 0;
-						for(int k = t.getArmy().size()-1;k>=0;k--) {
-							Unite u = t.getArmy().get(k);
-							if(u.type=="Soldat") {
-								nsoldat++;
-							} else if(u.type == "Canon") {
-								ncanon++;
-							} else {
-								ncavalier++;
-							}
-						}
-						StdDraw.textLeft(1205, 460, " Avec " + nsoldat +" Soldat" );
-						StdDraw.textLeft(1205, 430, " Avec " + ncavalier +" Cavalier" );
-						StdDraw.textLeft(1205, 400, " Avec " + ncanon +" Canon" );
-						StdDraw.textLeft(1205, 370, " Encore "+ t.getJoueur().getArmyAvailable().size()+ " armée(s) à placer");
-						int x = t.getJoueur().getArmy().size() - t.getJoueur().getArmyAvailable().size();
-						StdDraw.textLeft(1205, 340,  " "+ x +" armée(s) sur " + t.getJoueur().getTerritoire().size() +" Terrritoires" );
-						StdDraw.textLeft(1205, 310, " Pour " + t.getJoueur().getNom());
-						StdDraw.show();
-					}
-				}
-			}
-		} else {
-			for(int i = 0;i<this.territoire.size();i++) {
-				Territoire t = territoire.get(i);
-				int[] territoire = t.getPos();
-				StdDraw.clear();
-				StdDraw.picture(largeur/2, hauteur/2, carte);
-				StdDraw.setFont();
-				for(int k=0;k<listeregion.length;k++) {
-					Territoire ta = this.territoire.get(k);
-					Joueur a = ta.getJoueur();
-					StdDraw.setPenColor(a.getCouleur());
-					StdDraw.filledCircle(listeregion[k][0], listeregion[k][1], 15);
-					StdDraw.setPenColor(Color.WHITE);
-					StdDraw.text(listeregion[k][0]-0.1, listeregion[k][1]-0.8, ""+ ta.getArmy().size());
-				}
-			}
-		}
-	
-		
-		StdDraw.show();	
-		/*
-		if(StdDraw.mouseX()>=1233 && StdDraw.mouseY()<=1620 && StdDraw.mouseY()>=84 && StdDraw.mouseY()<=125) {
-			StdDraw.clear();
-			StdDraw.picture(largeur/2, hauteur/2, carteS);
-			StdDraw.setFont();
-			for(int k=0;k<listeregion.length;k++) {
-				Territoire ta = this.territoire.get(k);
-				Joueur j = ta.getJoueur();
-				StdDraw.setPenColor(j.getCouleur());
-				StdDraw.filledCircle(listeregion[k][0], listeregion[k][1], 15);
-				StdDraw.setPenColor(Color.WHITE);
-				StdDraw.text(listeregion[k][0]-0.1, listeregion[k][1]-0.8, ""+ ta.getArmy().size());
-			}
-			draw = true;
-		} else if(draw){
-			StdDraw.clear();
-			StdDraw.picture(largeur/2, hauteur/2, carte);
-			StdDraw.setFont();
-			for(int k=0;k<listeregion.length;k++) {
-				Territoire ta = this.territoire.get(k);
-				Joueur j = ta.getJoueur();
-				StdDraw.setPenColor(j.getCouleur());
-				StdDraw.filledCircle(listeregion[k][0], listeregion[k][1], 15);
-				StdDraw.setPenColor(Color.WHITE);
-				StdDraw.text(listeregion[k][0]-0.1, listeregion[k][1]-0.8, ""+ ta.getArmy().size());
-			}
-			draw = false;
-		}
-		for(int i = 0;i<this.territoire.size();i++) {
-			Territoire t = territoire.get(i);
-			int[] territoire = t.getPos();
-			if(territoire[0]-10<=(int)StdDraw.mouseX() && (int)StdDraw.mouseX()<=territoire[0]+10 && territoire[1]-10<=(int)StdDraw.mouseY() && (int)StdDraw.mouseY()<=territoire[1]+10 ) {
-				StdDraw.clear();
-				StdDraw.picture(largeur/2, hauteur/2, carte);
-				StdDraw.setFont();
-				for(int k=0;k<listeregion.length;k++) {
-					Territoire ta = this.territoire.get(k);
-					Joueur j = ta.getJoueur();
-					StdDraw.setPenColor(j.getCouleur());
-					StdDraw.filledCircle(listeregion[k][0], listeregion[k][1], 15);
-					StdDraw.setPenColor(Color.WHITE);
-					StdDraw.text(listeregion[k][0]-0.1, listeregion[k][1]-0.8, ""+ ta.getArmy().size());
-				}
-				StdDraw.setFont(font);
-				StdDraw.setPenColor(Color.BLACK);
-				StdDraw.textLeft(1205, 560, t.getNom());
-				StdDraw.textLeft(1205, 540, " à " + t.getJoueur().getNom());
-				StdDraw.textLeft(1205, 520, " En" + t.getRegion());
-				
-				int ncanon = 0;
-				int ncavalier = 0;
-				int nsoldat = 0;
-				for(int k = t.getArmy().size()-1;k>=0;k--) {
-					Unite u = t.getArmy().get(k);
-					if(u.type=="Soldat") {
-						nsoldat++;
-					} else if(u.type == "Canon") {
-						ncanon++;
+					Territoire t = this.territoire.get(i);
+					StdDraw.clear();
+					if(StdDraw.mouseX()>=1233 && StdDraw.mouseY()<=1620 && StdDraw.mouseY()>=84 && StdDraw.mouseY()<=125) {
+						StdDraw.picture(largeur/2, hauteur/2, carteS);
+						//System.out.println("YES");
 					} else {
-						ncavalier++;
+						StdDraw.picture(largeur/2, hauteur/2, carte);
+						//System.out.println("HAHANO");
+					}
+					StdDraw.setFont();
+					for(int k=0;k<listeregion.length;k++) {
+						Territoire ta = this.territoire.get(k);
+						Joueur a = ta.getJoueur();
+						StdDraw.setPenColor(a.getCouleur());
+						StdDraw.filledCircle(listeregion[k][0], listeregion[k][1], 15);
+						StdDraw.setPenColor(Color.WHITE);
+						StdDraw.text(listeregion[k][0]-0.1, listeregion[k][1]-0.8, ""+ ta.getArmy().size());
 					}
 				}
-				StdDraw.textLeft(1205, 460, " Avec " + nsoldat +" Soldat" );
-				StdDraw.textLeft(1205, 430, " Avec " + ncavalier +" Cavalier" );
-				StdDraw.textLeft(1205, 400, " Avec " + ncanon +" Canon" );
-				StdDraw.textLeft(1205, 370, " Encore "+ t.getJoueur().getArmyAvailable().size()+ " armée(s) à placer");
-				int x = t.getJoueur().getArmy().size() - t.getJoueur().getArmyAvailable().size();
-				StdDraw.textLeft(1205, 340,  " "+ x +" armée(s) sur " + t.getJoueur().getTerritoire().size() +" Terrritoires" );
-				StdDraw.textLeft(1205, 310, " Pour " + t.getJoueur().getNom());
-				StdDraw.show();
-			}
-		
-			 */	
+				//Affichage du jouer pendant son tour ainsi que sa mission
+				StdDraw.setFont(font);
+				StdDraw.setPenColor(j.getCouleur());
+				StdDraw.filledCircle(1230, 560, 10);
+				StdDraw.setPenColor(Color.BLACK);
+				StdDraw.textLeft(1245, 560, ""+j.getNom() + " Objectif : ");
+				StdDraw.setFont(minuscule);
+				if(j.getMission().length()>31) {  //Pour éviter que la mission sorte du canvas :o
+					String[] morceau = {j.getMission().substring(0, 31),j.getMission().substring(31)};
+					StdDraw.textLeft(1220, 530, " " + morceau[0]);
+					StdDraw.textLeft(1220, 510, " " + morceau[1]);
+				} else {
+					StdDraw.textLeft(1220, 530, " " + j.getMission());
+				}
+				//Affichage de l'action à faire ce tour
+				StdDraw.textLeft(1205, 450, " Encore "+ j.getArmyAvailable().size()+ " armée(s) à placer");
+				int x = j.getArmy().size() - j.getArmyAvailable().size();
+				StdDraw.textLeft(1205, 420,  " "+ x +" armée(s) sur " + j.getTerritoire().size() +" Terrritoires" );
+			reset = false;
 		}
-		
-	//}
-
+		StdDraw.show();	
+	}
 	
 	public ArrayList<Territoire> getTerritoire() {
 		return territoire;

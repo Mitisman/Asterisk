@@ -33,15 +33,30 @@ public class Partie {
 	
 	public void deroulementPrincipal(Joueur player,int count){
 		if(count==0) {
+			System.out.println("RECEPTION DE RENFORTS");
 			repartitionArmees(player);
-		}else if(false/*player.getArmyAvailable().size()!=0*/) {
+		}else if(player.getArmyAvailable().size()!=0){
+			System.out.println("PLACEMENT ARMEES");
 			placerArmees(player);
-		}else {
-			deplacerArmees(player);
-		}
+		}/*else {	
+			System.out.println("DEPLACEMENT ARMEES");
+			//deplacerArmees(player);
+		}*/
 	}
 	
-	public void deplacementTerritoireEnnemi(Joueur player, ArrayList<Unite> bataillonAttaquant, Territoire territoireDepart, Territoire territoireDestination) {
+	//CAS D'UNE ATTAQUE
+	public void getBattaillonAttaquant(Joueur player,Territoire territoireDepart, Territoire territoireDestination) {
+		//ArrayList<Unite> bataillonAttaquant = //OBTENIR CHOIX JOUEUR;
+		attaqueEnnemi(player,bataillonAttaquant,territoireDepart,territoireDestination);
+	}
+	
+	//CAS D'UN DEPLACEMENT ALLIE
+	public void getUnitesADeplacer(Joueur player,Territoire territoireDepart, Territoire territoireDestination) {
+		//ArrayList<Unite> unitesADeplacer = //OBTENIR CHOIX JOUEUR;
+		deplacementTerritoireAllie(player,unitesADeplacer,territoireDepart,territoireDestination);
+	}
+	
+	public void attaqueEnnemi(Joueur player, ArrayList<Unite> bataillonAttaquant, Territoire territoireDepart, Territoire territoireDestination) {
 		
 		ArrayList<Unite> bataillonDefendant = new ArrayList<Unite>();
 		ArrayList<Unite> armeesDefenseur = territoireDestination.getArmy();
@@ -57,32 +72,21 @@ public class Partie {
 	public void deplacementTerritoireAllie(Joueur player, ArrayList<Unite> unitesADeplacer, Territoire territoireDepart,Territoire territoireDestination){
 		for(Unite unit : unitesADeplacer) {
 			territoireDepart.deleteArmy(unit);
-			unit.setID(territoireDestination.getArmy().size()); //Devrait résoudre les problèmes d'ID
+			for(int o=1;o<=player.getArmy().size();o++) {
+				player.getArmy().get(o).setID(o);	//Devrait résoudre les problèmes d'ID
+			}
 			territoireDestination.addArmy(unit);
-		}
-	}
-	
-	public void deplacerArmees(Joueur player) {
+			for(int p=1;p<=player.getArmy().size();p++) {
+				territoireDestination.getJoueur().getArmy().get(p).setID(p); //Devrait résoudre les problèmes d'ID
+			}
 		
-		//ALED
-		
-		Territoire territoireDepart; //A OBTENIR
-		Territoire territoireDestination; //A OBTENIR
-		ArrayList<Unite> unitesADeplacer; //A OBTENIR
-		ArrayList<Unite> bataillonAttaquant; //A OBTENIR=
-		
-		if(true/*deplacement vers un territore allié*/) {
-			deplacementTerritoireAllie(player,unitesADeplacer,territoireDepart,territoireDestination);
-		}else if(true/*deplacement vers un territoire ennemi*/) {
-			deplacementTerritoireEnnemi(player,bataillonAttaquant,territoireDepart,territoireDestination);
-		}else {
-			System.out.println("madafacking erreur");
 		}
 	}
 	
 	public void placerArmees(Joueur player) {
 		
 		//ALED	
+		
 		//NOMBRE D'UNITES A DEPLACER
 		
 	}
@@ -99,7 +103,7 @@ public class Partie {
 		int renfortsJoueur = Math.max(firstCondition + secondCondition + thirdCondition,2);
 		
 		while(renfortsJoueur!=0) {
-			
+			System.out.println("RENFORTS = " + renfortsJoueur);
 			renfortsJoueur = askRenfort(player,renfortsJoueur);
 		}
 	}
@@ -118,44 +122,57 @@ public class Partie {
 			}else if(unite.getType()=="Soldat") {
 				IDsoldat++;
 			}else {
-				System.out.println("Erroooor");
+				System.out.println("Erroooor");                                                                                                                            
 			}
 		}
-		if(renfortsJoueur >= 7) {
+		System.out.println(IDcanon + " et " + IDcavalier + " et " + IDsoldat);
+		if(renfortsJoueur >= 11 ) {
 			//AFFICHER IMAGE CANON ROUGE OU CAVALIER ROUGE OU SOLDAT ROUGE
 			
-			Unite newCanon = new Unite(false,"Canon",IDcanon+1,0,2,3,7); //CHOISIR UN DES TROIS CHOIX
+			//IF CHOIX = CANON
+			Unite newCanon = new Unite(false,"Canon",IDcanon+1,0,2,3,7); 
 			player.addUnite(newCanon);
+			newCanon.setMvtRestants(1);
 			renfortsJoueur = renfortsJoueur - 7;
 			
+			//IF CHOIX = CAVALIER
 			Unite newCavalier = new Unite(false,"Cavalier",IDcavalier+1,0,3,1,3);
 			player.addUnite(newCavalier);
+			newCavalier.setMvtRestants(2);
 			renfortsJoueur = renfortsJoueur - 3;
 			
+			//IF CHOIX = SOLDAT
 			Unite newSoldat = new Unite(false,"Soldat",IDsoldat+1,0,1,2,1);
 			player.addUnite(newSoldat);
+			newSoldat.setMvtRestants(3);
 			renfortsJoueur = renfortsJoueur - 1;
 			
-		}else if(renfortsJoueur >= 3) {
+		}else if(renfortsJoueur >= 4) {
 			//AFFICHER CAVALIER ROUGE OU SOLDAT ROUGE
 			
+			//IF CHOIX = CAVALIER
 			Unite newCavalier = new Unite(false,"Cavalier",IDcavalier+1,0,3,1,3); //CHOSIR UN DES DEUX CHOIX
 			player.addUnite(newCavalier);
+			newCavalier.setMvtRestants(2);
 			renfortsJoueur = renfortsJoueur - 3;
 			
+			//IF CHOIX = SOLDAT
 			Unite newSoldat = new Unite(false,"Soldat",IDsoldat+1,0,1,2,1);
 			player.addUnite(newSoldat);
+			newSoldat.setMvtRestants(3);
 			renfortsJoueur = renfortsJoueur - 1;
 			
 		}else if(renfortsJoueur >=1) {
 			//AFFICHER SOLDAT ROUGE
 			
+			//IF CHOIX = SOLDAT
 			Unite newSoldat = new Unite(false,"Soldat",IDsoldat+1,0,1,2,1);
 			player.addUnite(newSoldat);
+			newSoldat.setMvtRestants(3);
 			renfortsJoueur = renfortsJoueur - 1;
 			
 		}else {
-			System.out.println("Erreur : renfortsJoueur = 0 ?");
+			System.out.println("Erreur : renfortsJoueur <= 0 ?");
 		}
 		return renfortsJoueur;
 	}
@@ -232,7 +249,6 @@ public class Partie {
 							System.out.println(listeVoisins[j]);
 							/* 2 lignes qui colorient les cercles des voisins en )noir */
 							StdDraw.setPenColor(Color.DARK_GRAY);
-							territoires.get(listeVoisins[j]).setDeplacable(true);
 							StdDraw.filledCircle(territoires.get(listeVoisins[j]).getPos()[0],territoires.get(listeVoisins[j]).getPos()[1], 15);	
 							StdDraw.setPenColor(Color.WHITE);
 							StdDraw.setFont();
@@ -242,7 +258,6 @@ public class Partie {
 							System.out.println(listeVoisins[j]);
 							/* 2 lignes qui colorient les cercles des voisins en )noir */
 							StdDraw.setPenColor(Color.BLACK);
-							territoires.get(listeVoisins[j]).setAttaquable(true);
 							StdDraw.filledCircle(territoires.get(listeVoisins[j]).getPos()[0],territoires.get(listeVoisins[j]).getPos()[1], 15);	
 							StdDraw.setPenColor(Color.WHITE);
 							StdDraw.setFont();
@@ -252,26 +267,12 @@ public class Partie {
 					}
 					
 					while(StdDraw.isMousePressed()){};
-					deatharray.add(1);
+					deatharray.add(pays.getId());
 					for(int m = 0;listeVoisins.length>m;m++) {
 						deatharray.add(listeVoisins[m]);
 					}
 					return deatharray;
-					/*
-					if(StdDraw.isMousePressed()) {
-						for(int k=0;k<listeVoisins.length-1;k++) {
-							if(territoires.get(listeVoisins[k]).getPos()[0]-5<=(int)StdDraw.mouseX() && (int)StdDraw.mouseX()<=territoires.get(listeVoisins[k]).getPos()[0]+5 && territoires.get(listeVoisins[k]).getPos()[1]-5<=(int)StdDraw.mouseY() && (int)StdDraw.mouseY()<=territoires.get(listeVoisins[k]).getPos()[1]+5) {
-								conditionsAttaque();
-							}
-						}
-					}else {
-						for(int j=0;j<listeVoisins.length-1;j++) {
-							StdDraw.setPenColor(territoires.get(listeVoisins[j]).getJoueur().getCouleur());
-							StdDraw.filledCircle(territoires.get(listeVoisins[j]).getPos()[0],territoires.get(listeVoisins[j]).getPos()[1], 15);
-							StdDraw.text(territoires.get(listeVoisins[j]).getPos()[0]-0.1, territoires.get(listeVoisins[j]).getPos()[1]-0.8,  ""+ territoires.get(listeVoisins[j]).getArmy().size());
-						}
-					}
-				*/}
+				}
 			}
 		}
 		deatharray.add(0);
@@ -282,7 +283,7 @@ public class Partie {
 		ArrayList<Joueur> bonJoueur = new ArrayList<Joueur>();
 		bonJoueur.add(player);
 		Mission newMission = new Mission(bonJoueur);
-		if(newMission.isDone(player)){
+		if(newMission.isDone(player) && newMission.mCCheck(player)){
 			victory(player);	
 			return true;
 		}
@@ -293,8 +294,11 @@ public class Partie {
 		System.out.println("BRAVO ! VICTOIRE ECRASANTE DE " + vainqueur.getNom());
 	}
 	
-	public void conditionsAttaque() {
-		
+	public boolean conditionsAttaque(Territoire territoireDepart,Territoire territoireArrivee) {
+		if(territoireDepart.getArmy().size()==1) {
+			return false;
+		}
+		return true;
 	}
 	
 	public static int maxUnitsATT = 3;

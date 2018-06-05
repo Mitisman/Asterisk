@@ -10,7 +10,15 @@ public class Carte {
 	private final int hauteur = 675;
 	private final String carte = new String("risk.jpg");
 	private final String carteS = new String("riskF.jpg");
+	private final String choixn = new String("menuNArmee.jpg");
+	private final String choixnRs = new String("menuNArmeeS.jpg");
+	private final String choixCArmee = new String("menuCArmee.jpg");
+	private final String choixCArmeeRs = new String("lebug.jpg");
+	private final String choixCArmeeSs = new String("menuCArmeeSS.jpg");
+	private final String choixCArmeeCs = new String("menuCArmeeCS.jpg");
+	private final String choixArmeeOs = new String("menuCArmeeOBES.jpg");
 	private static Font font = new Font("Comic Strip MN", Font.TRUETYPE_FONT, 20);
+	private static Font majuscule = new Font("Comic Strip MN", Font.TRUETYPE_FONT, 50);
 	private static Font minuscule = new Font("Comic Strip MN", Font.TRUETYPE_FONT, 17);
 	protected ArrayList<Territoire> territoire;
 	private boolean reset = true;
@@ -157,17 +165,29 @@ public class Carte {
 						}
 					}
 					
+					int n =  choixNarmee(attaquant);
+					ArrayList<Integer> type = new ArrayList<>();
+					if(n!=-1) { //Le mec appuie pas sur retour
+						type = choixTypeArmee(attaquant, n);
+						while(type.isEmpty() && n!=-1) { //Sors de ça si le mec clique deux fois sur Retour ou alors choisis nombre et type armeess
+							n = choixNarmee(attaquant);
+							type = choixTypeArmee(attaquant, n);
+						}
+					} else {
+						break;
+					}
+
 					if(allie!=0) {
 						System.out.println("PAYS DEPART : " + attaquant.getNom());
 						System.out.println("PAYS ALLIE DESTINATION : " + defenseur.getNom());
 						System.out.println("DEFENSE"); // ICI DEPLACEMENT ALLIÉ
-						game.getUnitesADeplacer(j, attaquant, defenseur);
+						//game.getUnitesADeplacer(j, attaquant, defenseur);
 						
 					}else {
 						System.out.println("PAYS ATTAQUANT : " + attaquant.getNom());
 						System.out.println("PAYS DEFENSEUR : " + defenseur.getNom());
 						System.out.println("ATTAQUE"); // ICI ATTAQUE
-						game.getBattaillonAttaquant(j, attaquant, defenseur);
+						//game.getBattaillonAttaquant(j, attaquant, defenseur);
 					}
 				}
 			}
@@ -223,6 +243,137 @@ public class Carte {
 		this.territoire = territoire;
 	}
 
+	public int choixNarmee(Territoire t) {
+		int condition = 0;
+		for(int i = t.getArmy().size()-1;i>=0;i--) { //Vérifie la taille des armées avec plus de 1 de mouvement
+			if(t.getArmy().get(i).getMvtRestants()>=1) {
+				condition++;
+			}
+		}
+		while(true) {
+			if(StdDraw.mouseX()>=682 && StdDraw.mouseX()<= 941 && StdDraw.mouseY()>=13 && StdDraw.mouseY()<=55) {
+				StdDraw.clear();
+				StdDraw.picture(largeur/2, hauteur/2, choixnRs);
+				StdDraw.text(526, 370, "1");
+				StdDraw.text(765, 370, "2");
+				StdDraw.text(1007, 370, "3");
+				StdDraw.show();
+				if(StdDraw.isMousePressed()) {
+					return -1;
+				}
+			} else if(StdDraw.mouseX()>=520 && StdDraw.mouseY()<=394 && StdDraw.mouseX()<=535 && StdDraw.mouseY()>=354){
+				StdDraw.clear();
+				StdDraw.picture(largeur/2, hauteur/2, choixn);
+				StdDraw.setPenColor(Color.RED);
+				StdDraw.text(526, 370, "1");
+				StdDraw.setPenColor(Color.BLACK);
+				StdDraw.text(765, 370, "2");
+				StdDraw.text(1007, 370, "3");
+				StdDraw.show();
+				if(StdDraw.isMousePressed()) {
+					return 1;
+				}
+			} else if(StdDraw.mouseX()>=747 && StdDraw.mouseX()<=785 && StdDraw.mouseY()<=391 && StdDraw.mouseY()>=347 && condition>1) {
+				StdDraw.clear();
+				StdDraw.picture(largeur/2, hauteur/2, choixn);
+				StdDraw.text(526, 370, "1");
+				StdDraw.setPenColor(Color.RED);
+				StdDraw.text(765, 370, "2");
+				StdDraw.setPenColor(Color.BLACK);
+				StdDraw.text(1007, 370, "3");
+				StdDraw.show();
+				if(StdDraw.isMousePressed()) {
+					return 2;
+				}
+			} else if(StdDraw.mouseX()>=982 && StdDraw.mouseX()<=1029 && StdDraw.mouseY()<=392 && StdDraw.mouseY()>=350 && condition>2) {
+				StdDraw.clear();
+				StdDraw.picture(largeur/2, hauteur/2, choixn);
+				StdDraw.text(526, 370, "1");
+				StdDraw.text(765, 370, "2");
+				StdDraw.setPenColor(Color.RED);
+				StdDraw.text(1007, 370, "3");
+				StdDraw.setPenColor(Color.BLACK);
+				StdDraw.show();
+				if(StdDraw.isMousePressed()) {
+					return 3;
+				}
+			} else {
+				StdDraw.clear();
+				StdDraw.picture(largeur/2, hauteur/2, choixn);
+				StdDraw.setFont(majuscule);
+				StdDraw.text(526, 370, "1");
+				StdDraw.text(765, 370, "2");
+				StdDraw.text(1007, 370, "3");
+				StdDraw.show();
+			}
+		}
+	}
+	
+	public ArrayList<Integer> choixTypeArmee(Territoire t, int n) {
+		ArrayList<Integer> soldat = new ArrayList<>();
+		ArrayList<Integer> cavalier = new ArrayList<>();
+		ArrayList<Integer> obelix = new ArrayList<>();
+		ArrayList<Integer> total = new ArrayList<>();
+		for(int k = t.getArmy().size()-1;k>=0;k--){  //Compte les types d'armées avec >=1 de mvt et récupère leurs ID
+			if(t.getArmy().get(k).getType() == "Soldat") {
+				if(t.getArmy().get(k).getMvtRestants()>=1) {
+					soldat.add(t.getArmy().get(k).getID());
+				}
+			} else if(t.getArmy().get(k).getType() == "Canon") {
+				if(t.getArmy().get(k).getMvtRestants()>=1) {
+					cavalier.add(t.getArmy().get(k).getID());
+				}
+			} else {
+				if(t.getArmy().get(k).getMvtRestants()>=1) {
+					obelix.add(t.getArmy().get(k).getID());
+				}
+			}
+		}
+		while(total.size()<n) {   //Affichage graphique
+			if(StdDraw.mouseX()>=104 && StdDraw.mouseX()<=349 && StdDraw.mouseY()>=24 && StdDraw.mouseY()<=462 && soldat.size()>0) {
+				StdDraw.clear();
+				StdDraw.picture(largeur/2, hauteur/2, choixCArmeeSs);
+				StdDraw.show();
+				if(StdDraw.isMousePressed()) {
+					total.add(soldat.get(soldat.size()-1));
+					soldat.remove(soldat.size()-1);
+					while(StdDraw.isMousePressed()) {};
+				}
+			} else if(StdDraw.mouseX()>=583 && StdDraw.mouseX()<=977 && StdDraw.mouseY()>=7 && StdDraw.mouseY()<=440 && cavalier.size()>0){
+				StdDraw.clear();
+				StdDraw.picture(largeur/2,  hauteur/2, choixCArmeeCs);
+				StdDraw.show();
+				if(StdDraw.isMousePressed()) {
+					total.add(cavalier.get(cavalier.size()-1));
+					cavalier.remove(cavalier.size()-1);
+					while(StdDraw.isMousePressed()) {};
+				}
+			} else if(StdDraw.mouseX()>=1290 && StdDraw.mouseX()<=1547 && StdDraw.mouseY()>=15 && StdDraw.mouseY()<=419 && obelix.size()>0){
+				StdDraw.clear();
+				StdDraw.picture(largeur/2, hauteur/2, choixArmeeOs);
+				StdDraw.show();
+				if(StdDraw.isMousePressed()) {
+					total.add(obelix.get(obelix.size()-1));
+					obelix.remove(obelix.size()-1);
+					while(StdDraw.isMousePressed()) {};
+				}
+			} else if(StdDraw.mouseX()<=1635 && StdDraw.mouseX()>=1374 && StdDraw.mouseY()<=659 && StdDraw.mouseY()>=617){
+				StdDraw.clear();
+				StdDraw.picture(largeur/2, hauteur/2, choixCArmeeRs);
+				StdDraw.show();
+				if(StdDraw.isMousePressed()) {
+					total.clear();
+					while(StdDraw.isMousePressed()) {};
+					return total;
+				}
+			} else {
+				StdDraw.clear();
+				StdDraw.picture(largeur/2, hauteur/2, choixCArmee);
+				StdDraw.show();
+			}
+		}
+		return total;
+	}
 	
 	public double[] Souris() {
 		double pos[] = {StdDraw.mouseX(),StdDraw.mouseY()};

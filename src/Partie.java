@@ -6,31 +6,6 @@ import edu.princeton.cs.introcs.StdDraw;
 
 public class Partie {
 
-	boolean gameOver;
-	Joueur joueurActuel;
-	
-	public Partie(Joueur joueurActuel, boolean gameOver) {
-		super();
-		this.joueurActuel = joueurActuel;
-		this.gameOver = gameOver;
-	}
-	
-	public Joueur getJoueurActuel() {
-		return joueurActuel;
-	}
-
-	public void setJoueurActuel(Joueur joueurActuel) {
-		this.joueurActuel = joueurActuel;
-	}
-
-	public boolean isGameOver() {
-		return gameOver;
-	}
-
-	public void setGameOver(boolean gameOver) {
-		this.gameOver = gameOver;
-	}
-	
 	public void deroulementPrincipal(Joueur player,int count){
 		if(count==0) {
 			System.out.println("RECEPTION DE RENFORTS");

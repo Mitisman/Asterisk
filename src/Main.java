@@ -1,4 +1,3 @@
-
 import java.awt.Color;
 import java.awt.Font;
 import java.io.File;
@@ -579,8 +578,13 @@ public class Main {
 				if(u.get(k).type == "Soldat" && !u.get(k).isOnField()) {
 					territoires.get(k).addArmy(u.get(k));
 					u.get(k).setOnField(true); 
-					//System.out.println("SUR LA MAP ??? "+u.get(i).isOnField());
 				}
+			} 
+			int alea = 0;
+			for(int k = u.size()-1;k>=0;k--) {
+				alea = rand.nextInt(territoires.size());
+				territoires.get(alea).addArmy(u.get(k));
+				u.get(k).setOnField(true);
 			} 
 		}
 		

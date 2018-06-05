@@ -599,7 +599,7 @@ public class Main {
 		}
 		
 		//DEMARRAGE DE LA PARTIE
-		Partie newGame = new Partie(joueur.get(0),false);
+		Partie newGame = new Partie();
 		//map.Start();
 		
 		while(!gameOver) {

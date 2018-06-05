@@ -166,7 +166,7 @@ public class Carte {
 					}
 					
 					int n =  choixNarmee(attaquant);
-					ArrayList<Unite> type = new ArrayList<>();
+					ArrayList<Unite> type = new ArrayList<>(); //Type == Liste des armees qui attaquent
 					if(n!=-1) { //Le mec appuie pas sur retour
 						type = choixTypeArmee(attaquant, n);
 						while(type.isEmpty() && n!=-1) { //Sors de ça si le mec clique deux fois sur Retour ou alors choisis nombre et type armeess
@@ -175,7 +175,10 @@ public class Carte {
 						}
 					} else {
 						break;
-					}
+					} 
+					
+					// HEEEEEEEEEEEEEEEEEEERE RECUPERE TYPE IF NOT EMPTY
+					
 
 					if(allie!=0) {
 						System.out.println("PAYS DEPART : " + attaquant.getNom());

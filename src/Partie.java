@@ -38,20 +38,21 @@ public class Partie {
 		}else if(player.getArmyAvailable().size()!=0){
 			System.out.println("PLACEMENT ARMEES");
 			placerArmees(player);
-		}
+		}/*else {	
+			System.out.println("DEPLACEMENT ARMEES");
+			//deplacerArmees(player);
+		}*/
 	}
 	
 	//CAS D'UNE ATTAQUE
 	public void getBattaillonAttaquant(Joueur player,Territoire territoireDepart, Territoire territoireDestination) {
 		//ArrayList<Unite> bataillonAttaquant = //OBTENIR CHOIX JOUEUR;
-		//mêmes conditions à vérifier que dans setArmyAndPower();
 		attaqueEnnemi(player,bataillonAttaquant,territoireDepart,territoireDestination);
 	}
 	
 	//CAS D'UN DEPLACEMENT ALLIE
 	public void getUnitesADeplacer(Joueur player,Territoire territoireDepart, Territoire territoireDestination) {
 		//ArrayList<Unite> unitesADeplacer = //OBTENIR CHOIX JOUEUR;
-		//mêmes conditions à vérifier que dans setArmyAndPower();
 		deplacementTerritoireAllie(player,unitesADeplacer,territoireDepart,territoireDestination);
 	}
 	
@@ -65,9 +66,7 @@ public class Partie {
 		
 		Joueur playerDef = territoireDestination.getJoueur();
 		Joueur playerAtt = player;
-		
-		affrontement(bataillonAttaquant,bataillonDefendant,playerAtt,playerDef,territoireDepart,territoireDestination);
-		
+		affrontement(bataillonAttaquant,bataillonDefendant,playerAtt,playerDef);
 	}
 	
 	public void deplacementTerritoireAllie(Joueur player, ArrayList<Unite> unitesADeplacer, Territoire territoireDepart,Territoire territoireDestination){
@@ -77,8 +76,6 @@ public class Partie {
 				player.getArmy().get(o).setID(o);	//Devrait résoudre les problèmes d'ID
 			}
 			territoireDestination.addArmy(unit);
-			unit.setOnField(true); //AU CAS OU C'EST OU C'ETAIT PAS FAIT, PRECAUTION
-			unit.setMvtRestants(unit.getMvtRestants()-1);
 			for(int p=1;p<=player.getArmy().size();p++) {
 				territoireDestination.getJoueur().getArmy().get(p).setID(p); //Devrait résoudre les problèmes d'ID
 			}
@@ -91,21 +88,10 @@ public class Partie {
 		//ALED	
 		
 		//NOMBRE D'UNITES A DEPLACER
-		for(Unite unit : player.getArmy()) {
-			if(unit.getType()=="Soldat") {
-				unit.setMvtRestants(mvtsParTourSoldat);
-			}else if(unit.getType()=="Cavalier") {
-				unit.setMvtRestants(mvtsParTourCavalier);
-			}else if(unit.getType()=="Canon") {
-				unit.setMvtRestants(mvtsParTourCanon);
-			}else {
-				System.out.println("PROBLEME ENCORE");
-			}
-			
-		}
+		
 	}
 	
-	public void repartitionArmees(Joueur player) {
+	public int repartitionArmees(Joueur player) {
 		
 		int firstCondition = player.getTerritoire().size();
 		firstCondition = (int) Math.floor(firstCondition/3);
@@ -116,10 +102,7 @@ public class Partie {
 		
 		int renfortsJoueur = Math.max(firstCondition + secondCondition + thirdCondition,2);
 		
-		while(renfortsJoueur!=0) {
-			System.out.println("RENFORTS = " + renfortsJoueur);
-			renfortsJoueur = askRenfort(player,renfortsJoueur);
-		}
+		return renfortsJoueur;
 	}
 	
 	public int askRenfort(Joueur player,int renfortsJoueur) {
@@ -245,7 +228,6 @@ public class Partie {
 	}
 
 	public ArrayList<Integer> selectionPays(Joueur player, ArrayList<Territoire> territoires) {
-		System.out.println(player.getNom());
 		ArrayList<Integer> deatharray = new ArrayList<>();
 		if(StdDraw.isMousePressed()){
 			ArrayList<Territoire> territoire = player.getTerritoire();
@@ -330,58 +312,42 @@ public class Partie {
 			max = maxUnitsATT;
 		}
 		for (Unite unit : army) {
-			if (unit.getType() == "Soldier") {
-				if((attack && unit.getMvtRestants()>0) || !attack) {
-					int soldierPower = rand.nextInt((6 - 1) + 1) + 1;
-					unit.setPower(soldierPower); 
-					count++;
-					newArmy.add(unit);
-					if (count==max) {
-						break;
-					}
-				}else{
-					continue;
+			if (unit.getType() == "Soldier") {					
+				int soldierPower = rand.nextInt((6 - 1) + 1) + 1;
+				unit.setPower(soldierPower); 
+				count++;
+				newArmy.add(unit);
+				if (count==max) {
+					break;
 				}
 			}
 		}
 		for (Unite unit : army) {
-			if (unit.getType() == "Canon") {	
-				if((attack && unit.getMvtRestants()>0) || !attack) {
-					int canonPower = rand.nextInt((7 - 2) + 1) + 2;
-					unit.setPower(canonPower); 
-					count++;
-					newArmy.add(unit);
-					if (count==max) {
-						break;
-					}
-				}else{
-					continue;
+			if (unit.getType() == "Canon") {					
+				int canonPower = rand.nextInt((7 - 2) + 1) + 2;
+				unit.setPower(canonPower); 
+				count++;
+				newArmy.add(unit);
+				if (count==max) {
+					break;
 				}
 			}
 		}
 		for (Unite unit : army) {
-			if (unit.getType() == "Cavalier") {		
-				if((attack && unit.getMvtRestants()>0) || !attack) {
-					int knightPower = rand.nextInt((9 - 4) + 1) + 4;
-					unit.setPower(knightPower); 
-					count++;
-					newArmy.add(unit);
-					if (count==max) {
-						break;
-					}
-				}else{
-					continue;
+			if (unit.getType() == "Cavalier") {					
+				int knightPower = rand.nextInt((9 - 4) + 1) + 4;
+				unit.setPower(knightPower); 
+				count++;
+				newArmy.add(unit);
+				if (count==max) {
+					break;
 				}
 			}	
-		}
-		if(attack && count==0) {
-			System.out.println("VOUS N'AVEZ PLUS D'UNITES DEPLACABLES !");
-			System.out.println("VOUS NE POUVEZ PLUS ATTAQUER AVEC LES UNITES DE CE TERRITOIRE !");
 		}
 		return newArmy;
 	}
 	
-	public void affrontement(ArrayList<Unite> armyAtt,ArrayList<Unite> armyDef,Joueur playerAtt,Joueur playerDef,Territoire territoireConquerant,Territoire territoireDefaitiste) {
+	public void affrontement(ArrayList<Unite> armyAtt,ArrayList<Unite> armyDef,Joueur playerAtt,Joueur playerDef) {
 		while(armyAtt.size()!=0 && armyDef.size()!=0){
 			int attMaxPower = strongerUnitPower(armyAtt,"attack");
 			Unite attStrongerUnit = strongerUnit(armyAtt,"attack");
@@ -393,19 +359,12 @@ public class Partie {
 				armyAtt = deleteUnit(attStrongerUnit,armyAtt,playerAtt);//diminue la taille de armyAtt
 			}
 		}
-		if (armyAtt.size()==0) {//DEFENSEUR WIN
-			System.out.println("Defaite de l'attaquant ! Vous pouvez retenter d'attaquer avec d'autres unités !");
-		}else if(armyDef.size()==0) {//ATTAQUANT WIN
-			if(territoireDefaitiste.getArmy().size()==0) {//PLUS AUCUNE ARMEE SUR LE TERRITOIRE DEFENSEUR
-				territoireDefaitiste.setJoueur(playerAtt); // + CHANGER L'APPARTENANCE DES UNITES ?
-				deplacementTerritoireAllie(playerAtt,armyAtt,territoireConquerant,territoireDefaitiste);
-				System.out.println("Victoire de l'attaquant! Vous avez conquérit un territoire!");
-			}else {
-				System.out.println("Victoire de l'attaquant! Il reste des unités à détruire pour pouvoir conquérir le territoire!");
-			}
+		if (armyAtt.size()==0) {
+			//MESSAGE DE DEFAITE AU JOUEUR ATTAQUANT ?
+		}else if(armyDef.size()==0) {
+			
 		}else {
 			System.out.println("erreur again :)");
-			
 		}
 	}
 	
@@ -459,10 +418,10 @@ public class Partie {
 	}
 	
 	public ArrayList<Unite> deleteUnit(Unite unite,ArrayList<Unite> armee,Joueur player) {
+		// fonction à coder // 
 		unite.setOnField(false);
 		armee.remove(unite.getID());
 		player.getArmy().remove(unite.getID());
 		return armee;
 	}
 }
-

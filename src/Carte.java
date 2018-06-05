@@ -54,21 +54,33 @@ public class Carte {
 		}
 	}
 	
-	public void Start() {
+	public void Start(Joueur j) {
 		StdDraw.clear();
-		StdDraw.enableDoubleBuffering();
-		StdDraw.setCanvasSize(largeur, hauteur);
-		StdDraw.setXscale(0, largeur);
-		StdDraw.setYscale(0, hauteur);
 		StdDraw.picture(largeur/2, hauteur/2, carte);
-		for(int i=0;i<listeregion.length;i++) {
-			Territoire t = territoire.get(i);
-			Joueur j = t.getJoueur();
-			StdDraw.setPenColor(j.getCouleur());
-			StdDraw.filledCircle(listeregion[i][0], listeregion[i][1], 15);
+		StdDraw.setFont();
+		for(int h = territoire.size() - 1; h>=0;h--) {
+			StdDraw.setPenColor(territoire.get(h).getJoueur().getCouleur());
+			StdDraw.filledCircle(territoire.get(h).getX(), territoire.get(h).getY(), 15);
 			StdDraw.setPenColor(Color.WHITE);
-			StdDraw.text(listeregion[i][0]-0.1, listeregion[i][1]-0.8, ""+ t.getArmy().size());
+			StdDraw.text(territoire.get(h).getX()-0.1, territoire.get(h).getY()-0.8, ""+ territoire.get(h).getArmy().size());
 		}
+		StdDraw.setFont(font);
+		StdDraw.setPenColor(j.getCouleur());
+		StdDraw.filledCircle(1230, 560, 10);
+		StdDraw.setPenColor(Color.BLACK);
+		StdDraw.textLeft(1245, 560, ""+j.getNom() + " Objectif : ");
+		StdDraw.setFont(minuscule);
+		if(j.getMission().length()>31) {  //Pour éviter que la mission sorte du canvas :o
+			String[] morceau = {j.getMission().substring(0, 31),j.getMission().substring(31)};
+			StdDraw.textLeft(1220, 530, " " + morceau[0]);
+			StdDraw.textLeft(1220, 510, " " + morceau[1]);
+		} else {
+			StdDraw.textLeft(1220, 530, " " + j.getMission());
+		}
+		StdDraw.setFont(font);
+		StdDraw.textLeft(1205, 450, " Place ton "+ j.getArmyAvailable().get(j.getArmyAvailable().size()-1).getType() );
+		int x = j.getArmy().size() - j.getArmyAvailable().size();
+		StdDraw.textLeft(1205, 420,  " "+ x +" armée(s) sur " + j.getTerritoire().size() +" Terrritoires" );
 		StdDraw.show();
 	}
 	
@@ -80,35 +92,25 @@ public class Carte {
 		ArrayList<Integer> quickfix = game.selectionPays(j,this.territoire);
 		if(d == 0) {
 			DebutDuTour(game,j);
-			StdDraw.clear();
-			StdDraw.picture(largeur/2, hauteur/2, carte);
-			StdDraw.setFont();
-			for(int h = territoire.size() - 1; h>=0;h--) {
-				StdDraw.setPenColor(territoire.get(h).getJoueur().getCouleur());
-				StdDraw.filledCircle(territoire.get(h).getX(), territoire.get(h).getY(), 15);
-				StdDraw.setPenColor(Color.WHITE);
-				StdDraw.text(territoire.get(h).getX()-0.1, territoire.get(h).getY()-0.8, ""+ territoire.get(h).getArmy().size());
-			}
-			StdDraw.setFont(font);
-			StdDraw.setPenColor(j.getCouleur());
-			StdDraw.filledCircle(1230, 560, 10);
-			StdDraw.setPenColor(Color.BLACK);
-			StdDraw.textLeft(1245, 560, ""+j.getNom() + " Objectif : ");
-			StdDraw.setFont(minuscule);
-			if(j.getMission().length()>31) {  //Pour éviter que la mission sorte du canvas :o
-				String[] morceau = {j.getMission().substring(0, 31),j.getMission().substring(31)};
-				StdDraw.textLeft(1220, 530, " " + morceau[0]);
-				StdDraw.textLeft(1220, 510, " " + morceau[1]);
-			} else {
-				StdDraw.textLeft(1220, 530, " " + j.getMission());
-			}
-			StdDraw.setFont(font);
-			StdDraw.textLeft(1205, 450, " Encore "+ j.getArmyAvailable().size());
-			int x = j.getArmy().size() - j.getArmyAvailable().size();
-			StdDraw.textLeft(1205, 420,  " "+ x +" armée(s) sur " + j.getTerritoire().size() +" Terrritoires" );
-			StdDraw.show();
+			Start(j);
 			while(j.getArmyAvailable().size()>0) {
-				System.out.println("PLACE TES ARMEEEEEEEs");
+				for(int n =  j.getTerritoire().size() - 1; n>=0 ; n--) {
+					int[] territoire = j.getTerritoire().get(n).getPos();
+					if(territoire[0]-10<=(int)StdDraw.mouseX() && (int)StdDraw.mouseX()<=territoire[0]+10 && territoire[1]-10<=(int)StdDraw.mouseY() && (int)StdDraw.mouseY()<=territoire[1]+10) {
+						if(StdDraw.isMousePressed()) {
+							j.getTerritoire().get(n).addArmy(j.getArmyAvailable().get(j.getArmyAvailable().size()-1)); //Ajoute l'unite sur le territoire
+							j.getArmyAvailable().get(j.getArmyAvailable().size()-1).setMvtRestants(3);
+							j.getArmyAvailable().get(j.getArmyAvailable().size()-1).setOnField(true); //Le met sur le terrain
+							if(j.getArmyAvailable().size()>0) {
+								Start(j);   //MAJ la map avec +1 armée sur territoire
+							} else {
+								reset = true;
+							}
+							while(StdDraw.isMousePressed()) {};
+						}
+					}
+				}
+				
 			}
 		}
 		if(quickfix.get(0) != 0) {
@@ -123,7 +125,6 @@ public class Carte {
 								StdDraw.picture(largeur/2, hauteur/2, carteS);
 								
 							} else {
-								System.out.println("YES");
 								StdDraw.picture(largeur/2, hauteur/2, carte);
 							}
 							StdDraw.setFont();
@@ -164,7 +165,6 @@ public class Carte {
 								StdDraw.textLeft(1220, 530, " " + j.getMission());
 							}
 							StdDraw.setFont(font);
-							StdDraw.textLeft(1205, 450, " Encore "+ j.getArmyAvailable().size()+ " armée(s) à placer");
 							int x = j.getArmy().size() - j.getArmyAvailable().size();
 							StdDraw.textLeft(1205, 420,  " "+ x +" armée(s) sur " + j.getTerritoire().size() +" Terrritoires" );
 							
@@ -246,10 +246,8 @@ public class Carte {
 					StdDraw.clear();
 					if(StdDraw.mouseX()>=1233 && StdDraw.mouseY()<=1620 && StdDraw.mouseY()>=84 && StdDraw.mouseY()<=125) {
 						StdDraw.picture(largeur/2, hauteur/2, carteS);
-						//System.out.println("YES");
 					} else {
 						StdDraw.picture(largeur/2, hauteur/2, carte);
-						//System.out.println("HAHANO");
 					}
 					StdDraw.setFont();
 					for(int k=0;k<listeregion.length;k++) {
@@ -276,7 +274,6 @@ public class Carte {
 					StdDraw.textLeft(1220, 530, " " + j.getMission());
 				}
 				//Affichage de l'action à faire ce tour
-				StdDraw.textLeft(1205, 450, " Encore "+ j.getArmyAvailable().size()+ " armée(s) à placer");
 				int x = j.getArmy().size() - j.getArmyAvailable().size();
 				StdDraw.textLeft(1205, 420,  " "+ x +" armée(s) sur " + j.getTerritoire().size() +" Terrritoires" );
 			reset = false;
@@ -445,13 +442,14 @@ public class Carte {
 		int renforts = g.repartitionArmees(j);
 		while(StdDraw.isMousePressed()) {};
 		while(renforts!=0) {
-			System.out.println(StdDraw.isMousePressed());
-			System.out.println("XXXX " + renforts);
 			if(StdDraw.mouseX()>=104 && StdDraw.mouseX()<=349 && StdDraw.mouseY()>=24 && StdDraw.mouseY()<=462) {
 				StdDraw.clear();
 				StdDraw.picture(largeur/2, hauteur/2, debutS);
+				StdDraw.setPenColor(j.getCouleur());
+				StdDraw.filledCircle(600, 595, 25);
 				StdDraw.setPenColor(Color.BLACK);
 				StdDraw.setFont(majuscule);
+				StdDraw.textLeft(635, 595, ""+j.getNom());
 				StdDraw.textLeft(1230, 559, "Renfort " + renforts);
 				StdDraw.show();
 				if(StdDraw.isMousePressed()) {
@@ -464,8 +462,11 @@ public class Carte {
 			} else if(StdDraw.mouseX()>=583 && StdDraw.mouseX()<=977 && StdDraw.mouseY()>=7 && StdDraw.mouseY()<=440 && renforts>=3) {
 				StdDraw.clear();
 				StdDraw.picture(largeur/2, hauteur/2, debutC);
+				StdDraw.setPenColor(j.getCouleur());
+				StdDraw.filledCircle(600, 595, 25);
 				StdDraw.setPenColor(Color.BLACK);
 				StdDraw.setFont(majuscule);
+				StdDraw.textLeft(635, 595, ""+j.getNom());
 				StdDraw.textLeft(1230, 559, "Renfort " + renforts);
 				StdDraw.show();
 				if(StdDraw.isMousePressed()) {
@@ -478,8 +479,11 @@ public class Carte {
 			} else if(StdDraw.mouseX()>=1290 && StdDraw.mouseX()<=1547 && StdDraw.mouseY()>=15 && StdDraw.mouseY()<=419 && renforts>=7) {
 				StdDraw.clear();
 				StdDraw.picture(largeur/2, hauteur/2, debutO);
+				StdDraw.setPenColor(j.getCouleur());
+				StdDraw.filledCircle(600, 595, 25);
 				StdDraw.setPenColor(Color.BLACK);
 				StdDraw.setFont(majuscule);
+				StdDraw.textLeft(635, 595, ""+j.getNom());
 				StdDraw.textLeft(1230, 559, "Renfort " + renforts);
 				StdDraw.show();
 				if(StdDraw.isMousePressed()) {
@@ -492,8 +496,11 @@ public class Carte {
 			} else {
 				StdDraw.clear();
 				StdDraw.picture(largeur/2, hauteur/2, debut);
+				StdDraw.setPenColor(j.getCouleur());
+				StdDraw.filledCircle(600, 595, 25);
 				StdDraw.setPenColor(Color.BLACK);
 				StdDraw.setFont(majuscule);
+				StdDraw.textLeft(635, 595, ""+j.getNom());
 				StdDraw.textLeft(1230, 559, "Renfort " + renforts);
 				StdDraw.show();
 			}
@@ -506,11 +513,11 @@ public class Carte {
 		ArrayList<Unite> obelix = new ArrayList<>();
 		ArrayList<Unite> total = new ArrayList<>();
 		for(int k = t.getArmy().size()-1;k>=0;k--){  //Compte les types d'armées avec >=1 de mvt et les recup dans leur arraylist correspondante
-			if(t.getArmy().get(k).getType() == "Soldat") {
+			if(t.getArmy().get(k).getType().equals("Soldat")) {
 				if(t.getArmy().get(k).getMvtRestants()>=1) {
 					soldat.add(t.getArmy().get(k));
 				}
-			} else if(t.getArmy().get(k).getType() == "Canon") {
+			} else if(t.getArmy().get(k).getType().equals("Cavalier")) {
 				if(t.getArmy().get(k).getMvtRestants()>=1) {
 					cavalier.add(t.getArmy().get(k));
 				}

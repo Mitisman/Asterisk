@@ -526,11 +526,19 @@ public class Main {
 		}
 		Mission m = new Mission(joueur);
 		
+
+		StdDraw.clear();
+		StdDraw.enableDoubleBuffering();
+		StdDraw.setCanvasSize(1643, 675);
+		StdDraw.setXscale(0, 1643);
+		StdDraw.setYscale(0, 675);
+		StdDraw.picture(1643/2, 675/2, menuR);
+		StdDraw.setFont(font);
 		while(!start) {
 			StdDraw.setPenColor(Color.BLACK);
-			if(StdDraw.mouseX()>=946 && StdDraw.mouseX()<=1159 && StdDraw.mouseY()>=23 && StdDraw.mouseY()<=69) {
+			if(StdDraw.mouseX()>=1415 && StdDraw.mouseX()<=1631 && StdDraw.mouseY()<=69 && StdDraw.mouseY()>=7) {
 				StdDraw.clear();
-				StdDraw.picture(largeur/2, hauteur/2, menuRs);
+				StdDraw.picture(1643/2, 675/2, menuRs);
 				for(i = 0;i<joueur.size();i++) {
 					if(joueur.get(i).getIA()) {
 						information = joueur.get(i).getNom() + " IA";
@@ -547,7 +555,7 @@ public class Main {
 				}
 			} else {
 				StdDraw.clear();
-				StdDraw.picture(largeur/2, hauteur/2, menuR);
+				StdDraw.picture(1643/2, 675/2, menuR);
 				for(i = 0;i<joueur.size();i++) {
 					if(joueur.get(i).getIA()) {
 						information = joueur.get(i).getNom() + " IA";
@@ -577,6 +585,7 @@ public class Main {
 			for(int k = j.getTerritoire().size()-1;k>=0;k--) {
 				if(u.get(k).type == "Soldat" && !u.get(k).isOnField()) {
 					territoires.get(k).addArmy(u.get(k));
+					u.get(k).setMvtRestants(3);
 					u.get(k).setOnField(true); 
 				}
 			} 
@@ -584,20 +593,20 @@ public class Main {
 			for(int k = u.size()-1;k>=0;k--) {
 				alea = rand.nextInt(territoires.size());
 				territoires.get(alea).addArmy(u.get(k));
+				u.get(k).setMvtRestants(3);
 				u.get(k).setOnField(true);
 			} 
 		}
 		
 		//DEMARRAGE DE LA PARTIE
 		Partie newGame = new Partie(joueur.get(0),false);
-		map.Start();
+		//map.Start();
 		
 		while(!gameOver) {
 			for(Joueur player : joueur) {
 				int count=0;
 				while(!(StdDraw.isMousePressed() && StdDraw.mouseX()>=1233 && StdDraw.mouseY()<=1620 && StdDraw.mouseY()>=84 && StdDraw.mouseY()<=125)) {
-					
-					map.Maj(newGame,player);
+					map.Maj(newGame,player,count);
 					//newGame.deroulementPrincipal(player,count);
 					count++;
 				}

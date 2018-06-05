@@ -166,7 +166,7 @@ public class Carte {
 					}
 					
 					int n =  choixNarmee(attaquant);
-					ArrayList<Integer> type = new ArrayList<>();
+					ArrayList<Unite> type = new ArrayList<>();
 					if(n!=-1) { //Le mec appuie pas sur retour
 						type = choixTypeArmee(attaquant, n);
 						while(type.isEmpty() && n!=-1) { //Sors de ça si le mec clique deux fois sur Retour ou alors choisis nombre et type armeess
@@ -309,23 +309,31 @@ public class Carte {
 		}
 	}
 	
-	public ArrayList<Integer> choixTypeArmee(Territoire t, int n) {
-		ArrayList<Integer> soldat = new ArrayList<>();
-		ArrayList<Integer> cavalier = new ArrayList<>();
-		ArrayList<Integer> obelix = new ArrayList<>();
-		ArrayList<Integer> total = new ArrayList<>();
+	public ArrayList<Unite> choixDeplacement(Territoire t){ //Utilisateur choisis les unites qu'il veut deplacer
+	ArrayList<Unite> soldat = new ArrayList<>();
+	ArrayList<Unite> cavalier = new ArrayList<>();
+	ArrayList<Unite> canon = new ArrayList<>();
+	ArrayList<Unite> total = new ArrayList<>();
+	return total;
+	}
+	
+	public ArrayList<Unite> choixTypeArmee(Territoire t, int n) {
+		ArrayList<Unite> soldat = new ArrayList<>();
+		ArrayList<Unite> cavalier = new ArrayList<>();
+		ArrayList<Unite> obelix = new ArrayList<>();
+		ArrayList<Unite> total = new ArrayList<>();
 		for(int k = t.getArmy().size()-1;k>=0;k--){  //Compte les types d'armées avec >=1 de mvt et récupère leurs ID
 			if(t.getArmy().get(k).getType() == "Soldat") {
 				if(t.getArmy().get(k).getMvtRestants()>=1) {
-					soldat.add(t.getArmy().get(k).getID());
+					soldat.add(t.getArmy().get(k));
 				}
 			} else if(t.getArmy().get(k).getType() == "Canon") {
 				if(t.getArmy().get(k).getMvtRestants()>=1) {
-					cavalier.add(t.getArmy().get(k).getID());
+					cavalier.add(t.getArmy().get(k));
 				}
 			} else {
 				if(t.getArmy().get(k).getMvtRestants()>=1) {
-					obelix.add(t.getArmy().get(k).getID());
+					obelix.add(t.getArmy().get(k));
 				}
 			}
 		}

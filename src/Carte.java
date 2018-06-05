@@ -16,9 +16,12 @@ public class Carte {
 	private final String choixCArmeeRs = new String("lebug.jpg");
 	private final String choixCArmeeSs = new String("menuCArmeeSS.jpg");
 	private final String choixCArmeeCs = new String("menuCArmeeCS.jpg");
+	private final String dep = new String("Deplacement.jpg");
+	private final String depR = new String("DeplacementR.jpg");
+	private final String depD = new String("DeplacementD.jpg");
 	private final String choixArmeeOs = new String("menuCArmeeOBES.jpg");
 	private static Font font = new Font("Comic Strip MN", Font.TRUETYPE_FONT, 20);
-	private static Font majuscule = new Font("Comic Strip MN", Font.TRUETYPE_FONT, 50);
+	private static Font majuscule = new Font("Comic Strip MN", Font.TRUETYPE_FONT, 55);
 	private static Font minuscule = new Font("Comic Strip MN", Font.TRUETYPE_FONT, 17);
 	protected ArrayList<Territoire> territoire;
 	private boolean reset = true;
@@ -165,32 +168,37 @@ public class Carte {
 						}
 					}
 					
-					int n =  choixNarmee(attaquant);
-					ArrayList<Unite> type = new ArrayList<>(); //Type == Liste des armees qui attaquent
-					if(n!=-1) { //Le mec appuie pas sur retour
-						type = choixTypeArmee(attaquant, n);
-						while(type.isEmpty() && n!=-1) { //Sors de ça si le mec clique deux fois sur Retour ou alors choisis nombre et type armeess
-							n = choixNarmee(attaquant);
-							type = choixTypeArmee(attaquant, n);
-						}
-					} else {
-						break;
-					} 
-					
-					// HEEEEEEEEEEEEEEEEEEERE RECUPERE TYPE IF NOT EMPTY
-					
-
+					ArrayList<Unite> type = new ArrayList<>(); //Type == Liste des armees qui attaquent ou que tu dep
 					if(allie!=0) {
 						System.out.println("PAYS DEPART : " + attaquant.getNom());
 						System.out.println("PAYS ALLIE DESTINATION : " + defenseur.getNom());
 						System.out.println("DEFENSE"); // ICI DEPLACEMENT ALLIÉ
 						//game.getUnitesADeplacer(j, attaquant, defenseur);
 						
+						type = choixDeplacement(attaquant);
+						
+						//Recupere type HERE IF NOT EMPTY POUR AVOIR LES UNITES QUE LE MEC DEPLACE 
+						
 					}else {
 						System.out.println("PAYS ATTAQUANT : " + attaquant.getNom());
 						System.out.println("PAYS DEFENSEUR : " + defenseur.getNom());
 						System.out.println("ATTAQUE"); // ICI ATTAQUE
 						//game.getBattaillonAttaquant(j, attaquant, defenseur);
+						
+						int n =  choixNarmee(attaquant);
+						if(n!=-1) { //Le mec appuie pas sur retour
+							type = choixTypeArmee(attaquant, n);
+							while(type.isEmpty() && n!=-1) { //Sors de ça si le mec clique deux fois sur Retour ou alors choisis nombre et type armeess
+								n = choixNarmee(attaquant);
+								type = choixTypeArmee(attaquant, n);
+							}
+						} else {
+							break;
+						} 
+						
+						// HEEEEEEEEEEEEEEEEEEERE RECUPERE TYPE IF NOT EMPTY
+						
+
 					}
 				}
 			}
@@ -313,10 +321,87 @@ public class Carte {
 	}
 	
 	public ArrayList<Unite> choixDeplacement(Territoire t){ //Utilisateur choisis les unites qu'il veut deplacer
+	boolean choix = false;
 	ArrayList<Unite> soldat = new ArrayList<>();
 	ArrayList<Unite> cavalier = new ArrayList<>();
-	ArrayList<Unite> canon = new ArrayList<>();
+	ArrayList<Unite> obelix = new ArrayList<>();
 	ArrayList<Unite> total = new ArrayList<>();
+	for(int k = t.getArmy().size()-1;k>=0;k--){  //Compte les types d'armées avec >=1 de mvt et récupère leurs ID
+		if(t.getArmy().get(k).getType() == "Soldat") {
+			if(t.getArmy().get(k).getMvtRestants()>=1) {
+				soldat.add(t.getArmy().get(k));
+			}
+		} else if(t.getArmy().get(k).getType() == "Canon") {
+			if(t.getArmy().get(k).getMvtRestants()>=1) {
+				cavalier.add(t.getArmy().get(k));
+			}
+		} else {
+			if(t.getArmy().get(k).getMvtRestants()>=1) {
+				obelix.add(t.getArmy().get(k));
+			}
+		}
+	}
+	while(!choix) {
+		System.out.println("X " + StdDraw.mouseX());
+		System.out.println("Y " + StdDraw.mouseY());
+		if(StdDraw.mouseX()>=1300 && StdDraw.mouseX()<=1636 && StdDraw.mouseY()<=584 && StdDraw.mouseY()>=540) {
+			StdDraw.clear();
+			StdDraw.picture(largeur/2, hauteur/2, depD);
+			StdDraw.show();
+			if(StdDraw.isMousePressed()) {
+				choix = true;
+				while(StdDraw.isMousePressed()) {};
+			}
+		} else if(StdDraw.mouseX()<=1635 && StdDraw.mouseX()>=1374 && StdDraw.mouseY()<=659 && StdDraw.mouseY()>=617) {
+			StdDraw.clear();
+			StdDraw.picture(largeur/2, hauteur/2, depR);
+			StdDraw.show();
+			if(StdDraw.isMousePressed()) {
+				choix = true;
+				while(StdDraw.isMousePressed()) {}; 
+			}
+		} else if(StdDraw.mouseX()>=104 && StdDraw.mouseX()<=349 && StdDraw.mouseY()>=24 && StdDraw.mouseY()<=462 && soldat.size()>0) {
+			StdDraw.clear();
+			StdDraw.picture(largeur/2, hauteur/2, choixCArmeeSs);
+			StdDraw.setFont(majuscule);
+			StdDraw.textLeft(1302, 557, "deplacer");
+			StdDraw.show();
+			if(StdDraw.isMousePressed()) {
+				choix = true;
+				while(StdDraw.isMousePressed()) {};
+				total.add(soldat.get(soldat.size()-1));
+				soldat.remove(soldat.size()-1);
+			}
+		} else if(StdDraw.mouseX()>=583 && StdDraw.mouseX()<=977 && StdDraw.mouseY()>=7 && StdDraw.mouseY()<=440 && cavalier.size()>0){
+			StdDraw.clear();
+			StdDraw.picture(largeur/2, hauteur/2, choixCArmeeCs);
+			StdDraw.setFont(majuscule);
+			StdDraw.textLeft(1302, 557, "deplacer");
+			StdDraw.show();
+			if(StdDraw.isMousePressed()) {
+				choix = true;
+				while(StdDraw.isMousePressed()) {};
+				total.add(cavalier.get(cavalier.size()-1));
+				cavalier.remove(cavalier.size()-1);
+			}
+		} else if(StdDraw.mouseX()>=1290 && StdDraw.mouseX()<=1547 && StdDraw.mouseY()>=15 && StdDraw.mouseY()<=419 && obelix.size()>0) {
+			StdDraw.clear();
+			StdDraw.picture(largeur/2, hauteur/2, choixArmeeOs);
+			StdDraw.setFont(majuscule);
+			StdDraw.textLeft(1302, 557, "deplacer");
+			StdDraw.show();
+			if(StdDraw.isMousePressed()) {
+				choix = true;
+				while(StdDraw.isMousePressed()) {};
+				total.add(obelix.get(obelix.size()-1));
+				obelix.remove(obelix.size()-1);
+			}
+		} else {
+			StdDraw.clear();
+			StdDraw.picture(largeur/2, hauteur/2, dep);
+			StdDraw.show();
+		}
+	}
 	return total;
 	}
 	
@@ -325,7 +410,7 @@ public class Carte {
 		ArrayList<Unite> cavalier = new ArrayList<>();
 		ArrayList<Unite> obelix = new ArrayList<>();
 		ArrayList<Unite> total = new ArrayList<>();
-		for(int k = t.getArmy().size()-1;k>=0;k--){  //Compte les types d'armées avec >=1 de mvt et récupère leurs ID
+		for(int k = t.getArmy().size()-1;k>=0;k--){  //Compte les types d'armées avec >=1 de mvt et les recup dans leur arraylist correspondante
 			if(t.getArmy().get(k).getType() == "Soldat") {
 				if(t.getArmy().get(k).getMvtRestants()>=1) {
 					soldat.add(t.getArmy().get(k));

@@ -10,7 +10,7 @@ public class Joueur {
 	private Color couleur;
 	private String mission = new String();
 	private boolean ia;
-	
+	private int territoiresConquis;
 	
 	public Joueur(String n, Color c, boolean IA) {
 		this.nom = n;
@@ -20,6 +20,14 @@ public class Joueur {
 		this.Territoires = new ArrayList<>();
 	}
 	
+	public void setTerritoiresConquis(int nbr) {
+		this.territoiresConquis = nbr;
+	}
+	
+	public int getTerritoiresConquis() {
+			return territoiresConquis;
+		}
+
 	public void setMission(String m) {
 		this.mission = m;
 	}

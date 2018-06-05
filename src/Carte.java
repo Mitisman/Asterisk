@@ -291,11 +291,25 @@ public class Carte {
 
 	public int choixNarmee(Territoire t) {
 		int condition = 0;
+		boolean uneUniteRestanteChoixUN=false;
+		boolean uneUniteRestanteChoixDEUX=false;
+		boolean uneUniteRestanteChoixTROIS=false;
 		for(int i = t.getArmy().size()-1;i>=0;i--) { //Vérifie la taille des armées avec plus de 1 de mouvement
 			if(t.getArmy().get(i).getMvtRestants()>=1) {
 				condition++;
 			}
 		}
+		
+		if(t.getArmy().size()-1>0) {
+			uneUniteRestanteChoixUN=true;
+		}
+		if(t.getArmy().size()-2>0) {
+			uneUniteRestanteChoixDEUX=true;
+		}
+		if(t.getArmy().size()-3>0) {
+			uneUniteRestanteChoixTROIS=true;
+		}
+		
 		while(true) {
 			if(StdDraw.mouseX()>=682 && StdDraw.mouseX()<= 941 && StdDraw.mouseY()>=13 && StdDraw.mouseY()<=55) {
 				StdDraw.clear();
@@ -307,7 +321,7 @@ public class Carte {
 				if(StdDraw.isMousePressed()) {
 					return -1;
 				}
-			} else if(StdDraw.mouseX()>=520 && StdDraw.mouseY()<=394 && StdDraw.mouseX()<=535 && StdDraw.mouseY()>=354){
+			} else if(StdDraw.mouseX()>=520 && StdDraw.mouseY()<=394 && StdDraw.mouseX()<=535 && StdDraw.mouseY()>=354 && uneUniteRestanteChoixUN){
 				StdDraw.clear();
 				StdDraw.picture(largeur/2, hauteur/2, choixn);
 				StdDraw.setPenColor(Color.RED);
@@ -319,7 +333,7 @@ public class Carte {
 				if(StdDraw.isMousePressed()) {
 					return 1;
 				}
-			} else if(StdDraw.mouseX()>=747 && StdDraw.mouseX()<=785 && StdDraw.mouseY()<=391 && StdDraw.mouseY()>=347 && condition>1) {
+			} else if(StdDraw.mouseX()>=747 && StdDraw.mouseX()<=785 && StdDraw.mouseY()<=391 && StdDraw.mouseY()>=347 && condition>1 && uneUniteRestanteChoixDEUX) {
 				StdDraw.clear();
 				StdDraw.picture(largeur/2, hauteur/2, choixn);
 				StdDraw.text(526, 370, "1");
@@ -331,7 +345,7 @@ public class Carte {
 				if(StdDraw.isMousePressed()) {
 					return 2;
 				}
-			} else if(StdDraw.mouseX()>=982 && StdDraw.mouseX()<=1029 && StdDraw.mouseY()<=392 && StdDraw.mouseY()>=350 && condition>2) {
+			} else if(StdDraw.mouseX()>=982 && StdDraw.mouseX()<=1029 && StdDraw.mouseY()<=392 && StdDraw.mouseY()>=350 && condition>2 && uneUniteRestanteChoixTROIS) {
 				StdDraw.clear();
 				StdDraw.picture(largeur/2, hauteur/2, choixn);
 				StdDraw.text(526, 370, "1");

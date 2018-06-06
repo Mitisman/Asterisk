@@ -376,15 +376,15 @@ public class Carte {
 	ArrayList<Unite> obelix = new ArrayList<>();
 	ArrayList<Unite> total = new ArrayList<>();
 	for(int k = t.getArmy().size()-1;k>=0;k--){  //Compte les types d'armées avec >=1 de mvt et récupère leurs ID
-		if(t.getArmy().get(k).getType() == "Soldat") {
+		if(t.getArmy().get(k).getType() == "Soldat" && t.getArmy().size()>1) {
 			if(t.getArmy().get(k).getMvtRestants()>=1) {
 				soldat.add(t.getArmy().get(k));
 			}
-		} else if(t.getArmy().get(k).getType() == "Canon") {
+		} else if(t.getArmy().get(k).getType() == "Cavalier" && t.getArmy().size()>1) {
 			if(t.getArmy().get(k).getMvtRestants()>=1) {
 				cavalier.add(t.getArmy().get(k));
 			}
-		} else {
+		} else if(t.getArmy().get(k).getType() == "Canon" && t.getArmy().size()>1){
 			if(t.getArmy().get(k).getMvtRestants()>=1) {
 				obelix.add(t.getArmy().get(k));
 			}
@@ -404,6 +404,7 @@ public class Carte {
 			StdDraw.picture(largeur/2, hauteur/2, depR);
 			StdDraw.show();
 			if(StdDraw.isMousePressed()) {
+				total.clear();
 				choix = true;
 				while(StdDraw.isMousePressed()) {}; 
 			}
@@ -414,7 +415,6 @@ public class Carte {
 			StdDraw.textLeft(1302, 557, "deplacer");
 			StdDraw.show();
 			if(StdDraw.isMousePressed()) {
-				choix = true;
 				while(StdDraw.isMousePressed()) {};
 				total.add(soldat.get(soldat.size()-1));
 				soldat.remove(soldat.size()-1);
@@ -426,7 +426,6 @@ public class Carte {
 			StdDraw.textLeft(1302, 557, "deplacer");
 			StdDraw.show();
 			if(StdDraw.isMousePressed()) {
-				choix = true;
 				while(StdDraw.isMousePressed()) {};
 				total.add(cavalier.get(cavalier.size()-1));
 				cavalier.remove(cavalier.size()-1);
@@ -438,7 +437,6 @@ public class Carte {
 			StdDraw.textLeft(1302, 557, "deplacer");
 			StdDraw.show();
 			if(StdDraw.isMousePressed()) {
-				choix = true;
 				while(StdDraw.isMousePressed()) {};
 				total.add(obelix.get(obelix.size()-1));
 				obelix.remove(obelix.size()-1);

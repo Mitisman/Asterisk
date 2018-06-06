@@ -36,8 +36,8 @@ public class Carte {
 	private int[][] listeregion;
 	private ArrayList<int[]> listevoisins;
 	//private int N_joueur;
-	
-	
+
+
 	public Carte(int[][] r, ArrayList<int[]> v, ArrayList<String> t, ArrayList<String> re) {
 	//	this.N_joueur = n;
 		this.listeregion = r;
@@ -46,14 +46,14 @@ public class Carte {
 		this.nregion = re;
 		this.territoire = new ArrayList<Territoire>();
 	}
-	
+
 	public void initialisation() {
 		for(int i=0;i<listeregion.length;i++) {
 			Territoire t = new Territoire(i, listeregion[i][0], listeregion[i][1], listevoisins.get(i), nterritoire.get(i), nregion.get(i));
 			territoire.add(t);
 		}
 	}
-	
+
 	public void Start(Joueur j) {
 		StdDraw.clear();
 		StdDraw.picture(largeur/2, hauteur/2, carte);
@@ -70,7 +70,7 @@ public class Carte {
 		StdDraw.setPenColor(Color.BLACK);
 		StdDraw.textLeft(1245, 560, ""+j.getNom() + " Objectif : ");
 		StdDraw.setFont(minuscule);
-		if(j.getMission().length()>31) {  //Pour éviter que la mission sorte du canvas :o
+		if(j.getMission().length()>31) {  //Pour ï¿½viter que la mission sorte du canvas :o
 			String[] morceau = {j.getMission().substring(0, 31),j.getMission().substring(31)};
 			StdDraw.textLeft(1220, 530, " " + morceau[0]);
 			StdDraw.textLeft(1220, 510, " " + morceau[1]);
@@ -80,17 +80,17 @@ public class Carte {
 		StdDraw.setFont(font);
 		StdDraw.textLeft(1205, 450, " Place ton "+ j.getArmyAvailable().get(j.getArmyAvailable().size()-1).getType() );
 		int x = j.getArmy().size() - j.getArmyAvailable().size();
-		StdDraw.textLeft(1205, 420,  " "+ x +" armée(s) sur " + j.getTerritoire().size() +" Terrritoires" );
+		StdDraw.textLeft(1205, 420,  " "+ x +" armï¿½e(s) sur " + j.getTerritoire().size() +" Terrritoires" );
 		StdDraw.show();
 	}
-	
+
 	//MODIFIER MAJ() POUR QUE LORSQUE L'UTILISATEUR CLIQUE SUR UN PAYS, LES PAYS VOISINS SE COLORENT EN NOIR; SI LE JOUEUR
 	//CLIQUE JUSTE ENSUITE SUR UN DE CES PAYS NOIRS, IL LANCE UNE ATTAQUE (SI IL CLIQUE AILLEURS, LES VOISINS REPRENNENT
 	//LEUR COULEUR ET ON REVIENT COMME AVANT). C'EST CLAIR :) ?
-	
+
 	public void Maj(Partie game, Joueur j, int d) {
 		ArrayList<Integer> quickfix = game.selectionPays(j,this.territoire);
-		if(d == 0) {
+		if(d == 0) {	
 			DebutDuTour(game,j);
 			Start(j);
 			while(j.getArmyAvailable().size()>0) {
@@ -99,10 +99,16 @@ public class Carte {
 					if(territoire[0]-10<=(int)StdDraw.mouseX() && (int)StdDraw.mouseX()<=territoire[0]+10 && territoire[1]-10<=(int)StdDraw.mouseY() && (int)StdDraw.mouseY()<=territoire[1]+10) {
 						if(StdDraw.isMousePressed()) {
 							j.getTerritoire().get(n).addArmy(j.getArmyAvailable().get(j.getArmyAvailable().size()-1)); //Ajoute l'unite sur le territoire
-							j.getArmyAvailable().get(j.getArmyAvailable().size()-1).setMvtRestants(3);
+							if(j.getArmyAvailable().get(j.getArmyAvailable().size()-1).getType()=="Soldat") {
+								j.getArmyAvailable().get(j.getArmyAvailable().size()-1).setMvtRestants(3);
+							}else if(j.getArmyAvailable().get(j.getArmyAvailable().size()-1).getType()=="Cavalier") {
+								j.getArmyAvailable().get(j.getArmyAvailable().size()-1).setMvtRestants(2);
+							}else {
+								j.getArmyAvailable().get(j.getArmyAvailable().size()-1).setMvtRestants(1);
+							}
 							j.getArmyAvailable().get(j.getArmyAvailable().size()-1).setOnField(true); //Le met sur le terrain
 							if(j.getArmyAvailable().size()>0) {
-								Start(j);   //MAJ la map avec +1 armée sur territoire
+								Start(j);   //MAJ la map avec +1 armï¿½e sur territoire
 							} else {
 								reset = true;
 							}
@@ -110,7 +116,7 @@ public class Carte {
 						}
 					}
 				}
-				
+
 			}
 		}
 		if(quickfix.get(0) != 0) {
@@ -123,7 +129,7 @@ public class Carte {
 							StdDraw.clear();
 							if(StdDraw.mouseX()>=1233 && StdDraw.mouseY()<=1620 && StdDraw.mouseY()>=84 && StdDraw.mouseY()<=125) {
 								StdDraw.picture(largeur/2, hauteur/2, carteS);
-								
+
 							} else {
 								StdDraw.picture(largeur/2, hauteur/2, carte);
 							}
@@ -157,7 +163,7 @@ public class Carte {
 							StdDraw.setPenColor(Color.BLACK);
 							StdDraw.textLeft(1245, 560, ""+j.getNom() + " Objectif : ");
 							StdDraw.setFont(minuscule);
-							if(j.getMission().length()>31) {  //Pour éviter que la mission sorte du canvas :o
+							if(j.getMission().length()>31) {  //Pour ï¿½viter que la mission sorte du canvas :o
 								String[] morceau = {j.getMission().substring(0, 31),j.getMission().substring(31)};
 								StdDraw.textLeft(1220, 530, " " + morceau[0]);
 								StdDraw.textLeft(1220, 510, " " + morceau[1]);
@@ -166,13 +172,13 @@ public class Carte {
 							}
 							StdDraw.setFont(font);
 							int x = j.getArmy().size() - j.getArmyAvailable().size();
-							StdDraw.textLeft(1205, 420,  " "+ x +" armée(s) sur " + j.getTerritoire().size() +" Terrritoires" );
-							
-							//Info sur la région survole
+							StdDraw.textLeft(1205, 420,  " "+ x +" armï¿½e(s) sur " + j.getTerritoire().size() +" Terrritoires" );
+
+							//Info sur la rï¿½gion survole
 							StdDraw.setPenColor(Color.BLACK);
-							StdDraw.textLeft(1205, 270, t.getNom() +"à " + t.getJoueur().getNom());
+							StdDraw.textLeft(1205, 270, t.getNom() +"ï¿½ " + t.getJoueur().getNom());
 							StdDraw.textLeft(1205, 240, " En" + t.getRegion());
-							
+
 							int ncanon = 0;
 							int ncavalier = 0;
 							int nsoldat = 0;
@@ -205,37 +211,44 @@ public class Carte {
 							break;
 						}
 					}
-					
+
 					ArrayList<Unite> type = new ArrayList<>(); //Type == Liste des armees qui attaquent ou que tu dep
 					if(allie!=0) {
 						System.out.println("PAYS DEPART : " + attaquant.getNom());
 						System.out.println("PAYS ALLIE DESTINATION : " + defenseur.getNom());
-						System.out.println("DEFENSE"); // ICI DEPLACEMENT ALLIÉ
+						System.out.println("DEFENSE"); // ICI DEPLACEMENT ALLIï¿½
 						//game.getUnitesADeplacer(j, attaquant, defenseur);
-						
-						type = choixDeplacement(attaquant);
-						
-						//Recupere type HERE IF NOT EMPTY POUR AVOIR LES UNITES QUE LE MEC DEPLACE 
-						
+
+						type = choixDeplacement(attaquant); //BATAILLON A DEPLACER OU A FAIRE ATTAQUER
+						if(!type.isEmpty()) { //Recupere type HERE IF NOT EMPTY POUR AVOIR LES UNITES QUE LE MEC DEPLACE
+							 game.deplacementTerritoireAllie(j, type, attaquant, defenseur);
+						 }
+
+
 					}else {
 						System.out.println("PAYS ATTAQUANT : " + attaquant.getNom());
 						System.out.println("PAYS DEFENSEUR : " + defenseur.getNom());
 						System.out.println("ATTAQUE"); // ICI ATTAQUE
-						//game.getBattaillonAttaquant(j, attaquant, defenseur);
-						
 						int n =  choixNarmee(attaquant);
-						if(n!=-1) { //Le mec appuie pas sur retour
+						if(n!=-1) { //Le mec n'appuie pas sur retour
 							type = choixTypeArmee(attaquant, n);
-							while(type.isEmpty() && n!=-1) { //Sors de ça si le mec clique deux fois sur Retour ou alors choisis nombre et type armeess
+							while(type.isEmpty() && n!=-1) { //Sors de là si le mec clique deux fois sur Retour ou alors choisis nombre et type armees
 								n = choixNarmee(attaquant);
 								type = choixTypeArmee(attaquant, n);
 							}
 						} else {
 							break;
-						} 
-						
-						// HEEEEEEEEEEEEEEEEEEERE RECUPERE TYPE IF NOT EMPTY
-						
+						}
+						 if(!type.isEmpty()) { // HEEEEEEEEEEEEEEEEEEERE RECUPERE TYPE IF NOT EMPTY
+							 System.out.println("Armée attaquante :");
+							 for(Unite unity : type) {
+								 System.out.println(unity.getType());
+								 System.out.println("Mouvements restants : " + unity.getMvtRestants());
+							 }
+							 game.attaqueEnnemi(j,type, attaquant, defenseur);
+						 }
+
+
 
 					}
 				}
@@ -266,21 +279,21 @@ public class Carte {
 				StdDraw.setPenColor(Color.BLACK);
 				StdDraw.textLeft(1245, 560, ""+j.getNom() + " Objectif : ");
 				StdDraw.setFont(minuscule);
-				if(j.getMission().length()>31) {  //Pour éviter que la mission sorte du canvas :o
+				if(j.getMission().length()>31) {  //Pour ï¿½viter que la mission sorte du canvas :o
 					String[] morceau = {j.getMission().substring(0, 31),j.getMission().substring(31)};
 					StdDraw.textLeft(1220, 530, " " + morceau[0]);
 					StdDraw.textLeft(1220, 510, " " + morceau[1]);
 				} else {
 					StdDraw.textLeft(1220, 530, " " + j.getMission());
 				}
-				//Affichage de l'action à faire ce tour
+				//Affichage de l'action ï¿½ faire ce tour
 				int x = j.getArmy().size() - j.getArmyAvailable().size();
-				StdDraw.textLeft(1205, 420,  " "+ x +" armée(s) sur " + j.getTerritoire().size() +" Terrritoires" );
+				StdDraw.textLeft(1205, 420,  " "+ x +" armï¿½e(s) sur " + j.getTerritoire().size() +" Terrritoires" );
 			reset = false;
 		}
-		StdDraw.show();	
+		StdDraw.show();
 	}
-	
+
 	public ArrayList<Territoire> getTerritoire() {
 		return territoire;
 	}
@@ -294,12 +307,12 @@ public class Carte {
 		boolean uneUniteRestanteChoixUN=false;
 		boolean uneUniteRestanteChoixDEUX=false;
 		boolean uneUniteRestanteChoixTROIS=false;
-		for(int i = t.getArmy().size()-1;i>=0;i--) { //Vérifie la taille des armées avec plus de 1 de mouvement
+		for(int i = t.getArmy().size()-1;i>=0;i--) { //Vï¿½rifie la taille des armï¿½es avec plus de 1 de mouvement
 			if(t.getArmy().get(i).getMvtRestants()>=1) {
 				condition++;
 			}
 		}
-		
+
 		if(t.getArmy().size()-1>0) {
 			uneUniteRestanteChoixUN=true;
 		}
@@ -309,7 +322,7 @@ public class Carte {
 		if(t.getArmy().size()-3>0) {
 			uneUniteRestanteChoixTROIS=true;
 		}
-		
+
 		while(true) {
 			if(StdDraw.mouseX()>=682 && StdDraw.mouseX()<= 941 && StdDraw.mouseY()>=13 && StdDraw.mouseY()<=55) {
 				StdDraw.clear();
@@ -368,14 +381,14 @@ public class Carte {
 			}
 		}
 	}
-	
+
 	public ArrayList<Unite> choixDeplacement(Territoire t){ //Utilisateur choisis les unites qu'il veut deplacer
 	boolean choix = false;
 	ArrayList<Unite> soldat = new ArrayList<>();
 	ArrayList<Unite> cavalier = new ArrayList<>();
 	ArrayList<Unite> obelix = new ArrayList<>();
 	ArrayList<Unite> total = new ArrayList<>();
-	for(int k = t.getArmy().size()-1;k>=0;k--){  //Compte les types d'armées avec >=1 de mvt et récupère leurs ID
+	for(int k = t.getArmy().size()-1;k>=0;k--){  //Compte les types d'armÃ©es avec >=1 de mvt et rÃ©cupÃ¨re leurs ID
 		if(t.getArmy().get(k).getType() == "Soldat") {
 			if(t.getArmy().get(k).getMvtRestants()>=1) {
 				soldat.add(t.getArmy().get(k));
@@ -406,7 +419,7 @@ public class Carte {
 			if(StdDraw.isMousePressed()) {
 				total.clear();
 				choix = true;
-				while(StdDraw.isMousePressed()) {}; 
+				while(StdDraw.isMousePressed()) {};
 			}
 		} else if(StdDraw.mouseX()>=104 && StdDraw.mouseX()<=349 && StdDraw.mouseY()>=24 && StdDraw.mouseY()<=462 && soldat.size()>0 && t.getArmy().size()-total.size()>1) {
 			StdDraw.clear();
@@ -449,6 +462,7 @@ public class Carte {
 	}
 	return total;
 	}
+
 	
 	public void DebutDuTour(Partie g, Joueur j){
 		int renforts = g.repartitionArmees(j);
@@ -518,13 +532,13 @@ public class Carte {
 			}
 		}
 	}
-	
+
 	public ArrayList<Unite> choixTypeArmee(Territoire t, int n) {
 		ArrayList<Unite> soldat = new ArrayList<>();
 		ArrayList<Unite> cavalier = new ArrayList<>();
 		ArrayList<Unite> obelix = new ArrayList<>();
 		ArrayList<Unite> total = new ArrayList<>();
-		for(int k = t.getArmy().size()-1;k>=0;k--){  //Compte les types d'armées avec >=1 de mvt et les recup dans leur arraylist correspondante
+		for(int k = t.getArmy().size()-1;k>=0;k--){  //Compte les types d'armï¿½es avec >=1 de mvt et les recup dans leur arraylist correspondante
 			if(t.getArmy().get(k).getType().equals("Soldat")) {
 				if(t.getArmy().get(k).getMvtRestants()>=1) {
 					soldat.add(t.getArmy().get(k));
@@ -584,14 +598,14 @@ public class Carte {
 		}
 		return total;
 	}
-	
+
 	public double[] Souris() {
 		double pos[] = {StdDraw.mouseX(),StdDraw.mouseY()};
 		return pos;
 	}
-	
+
 	public boolean click() {
 		return StdDraw.isMousePressed();
 	}
-	
+
 }

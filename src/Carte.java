@@ -376,15 +376,15 @@ public class Carte {
 	ArrayList<Unite> obelix = new ArrayList<>();
 	ArrayList<Unite> total = new ArrayList<>();
 	for(int k = t.getArmy().size()-1;k>=0;k--){  //Compte les types d'armées avec >=1 de mvt et récupère leurs ID
-		if(t.getArmy().get(k).getType() == "Soldat" && t.getArmy().size()>1) {
+		if(t.getArmy().get(k).getType() == "Soldat") {
 			if(t.getArmy().get(k).getMvtRestants()>=1) {
 				soldat.add(t.getArmy().get(k));
 			}
-		} else if(t.getArmy().get(k).getType() == "Cavalier" && t.getArmy().size()>1) {
+		} else if(t.getArmy().get(k).getType() == "Cavalier") {
 			if(t.getArmy().get(k).getMvtRestants()>=1) {
 				cavalier.add(t.getArmy().get(k));
 			}
-		} else if(t.getArmy().get(k).getType() == "Canon" && t.getArmy().size()>1){
+		} else if(t.getArmy().get(k).getType() == "Canon"){
 			if(t.getArmy().get(k).getMvtRestants()>=1) {
 				obelix.add(t.getArmy().get(k));
 			}
@@ -408,7 +408,7 @@ public class Carte {
 				choix = true;
 				while(StdDraw.isMousePressed()) {}; 
 			}
-		} else if(StdDraw.mouseX()>=104 && StdDraw.mouseX()<=349 && StdDraw.mouseY()>=24 && StdDraw.mouseY()<=462 && soldat.size()>0) {
+		} else if(StdDraw.mouseX()>=104 && StdDraw.mouseX()<=349 && StdDraw.mouseY()>=24 && StdDraw.mouseY()<=462 && soldat.size()>0 && t.getArmy().size()-total.size()>1) {
 			StdDraw.clear();
 			StdDraw.picture(largeur/2, hauteur/2, choixCArmeeSs);
 			StdDraw.setFont(majuscule);
@@ -419,7 +419,7 @@ public class Carte {
 				total.add(soldat.get(soldat.size()-1));
 				soldat.remove(soldat.size()-1);
 			}
-		} else if(StdDraw.mouseX()>=583 && StdDraw.mouseX()<=977 && StdDraw.mouseY()>=7 && StdDraw.mouseY()<=440 && cavalier.size()>0){
+		} else if(StdDraw.mouseX()>=583 && StdDraw.mouseX()<=977 && StdDraw.mouseY()>=7 && StdDraw.mouseY()<=440 && cavalier.size()>0 && t.getArmy().size()-total.size()>1){
 			StdDraw.clear();
 			StdDraw.picture(largeur/2, hauteur/2, choixCArmeeCs);
 			StdDraw.setFont(majuscule);
@@ -430,7 +430,7 @@ public class Carte {
 				total.add(cavalier.get(cavalier.size()-1));
 				cavalier.remove(cavalier.size()-1);
 			}
-		} else if(StdDraw.mouseX()>=1290 && StdDraw.mouseX()<=1547 && StdDraw.mouseY()>=15 && StdDraw.mouseY()<=419 && obelix.size()>0) {
+		} else if(StdDraw.mouseX()>=1290 && StdDraw.mouseX()<=1547 && StdDraw.mouseY()>=15 && StdDraw.mouseY()<=419 && obelix.size()>0 && t.getArmy().size()-total.size()>1) {
 			StdDraw.clear();
 			StdDraw.picture(largeur/2, hauteur/2, choixArmeeOs);
 			StdDraw.setFont(majuscule);

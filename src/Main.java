@@ -605,9 +605,17 @@ public class Main {
 		while(!gameOver) {
 			for(Joueur player : joueur) {
 				int count=0;
+				for(Unite unit : player.getArmy()) {
+					if(unit.getType()=="Soldat") {
+						unit.setMvtRestants(3);
+					}else if(unit.getType()=="Cavalier") {
+						unit.setMvtRestants(2);
+					}else if(unit.getType()=="Canon") {
+						unit.setMvtRestants(1);
+					}
+				}
 				while(!(StdDraw.isMousePressed() && StdDraw.mouseX()>=1233 && StdDraw.mouseY()<=1620 && StdDraw.mouseY()>=84 && StdDraw.mouseY()<=125)) {
 					map.Maj(newGame,player,count);
-					//newGame.deroulementPrincipal(player,count);
 					count++;
 				}
 				while(StdDraw.isMousePressed()){}

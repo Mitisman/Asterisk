@@ -21,6 +21,8 @@ public class Main {
 	private static String menuNv1 = new String("menuNv1.jpg");
 	private static String menuNv2 = new String("menuNv2.jpg");
 	private static String menuNv3 = new String("menuNv3.jpg");
+	private static String fin =  new String("Fin.jpg");
+	private static String finM = new String("FinM.jpg");
 	private static String menuNv4 = new String("menuNv4.jpg");
 	private static String menuNv5 = new String("menuNv5.jpg");
 	private static String menuNv6 = new String("menuNv6.jpg");
@@ -44,6 +46,7 @@ public class Main {
 	private static final int hauteur = 675;
 	private static boolean gameOver = false;
 	private static ArrayList<int[]> v = new ArrayList<>();
+	private static Joueur winner;
 	
 	public static void main(String[] args) throws FileNotFoundException {
 		int[][] t = LireCoordonnées();
@@ -620,9 +623,20 @@ public class Main {
 				}
 				while(StdDraw.isMousePressed()){}
 				gameOver = newGame.checkWin(player,m);
+				winner = player;
 			}
 		}
 		//FIN DE LA PARTIE
+		
+		StdDraw.disableDoubleBuffering();
+		StdDraw.clear();
+		StdDraw.setCanvasSize(1524, 1084);
+		StdDraw.picture(0.5, 0.5, fin);   //mettre finM pour avoir l'image de fin si tu réussis la mission ;) donc récuperer ça d'une manière où d'une autre :D 
+		StdDraw.setXscale(0, 1524);
+		StdDraw.setYscale(0, 1084);
+		StdDraw.setFont(font);
+		StdDraw.textLeft(460, 975, winner.getNom());
+		StdDraw.show();
 	}
 	
 	public static void ListeVoisins() throws FileNotFoundException{

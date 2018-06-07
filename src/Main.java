@@ -1,13 +1,19 @@
 import java.awt.Color;
 import java.awt.Font;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 import java.util.Scanner;
 
 import edu.princeton.cs.introcs.StdDraw;
+import sun.audio.AudioData;
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
+import sun.audio.ContinuousAudioDataStream;
 
 public class Main {
 	
@@ -47,14 +53,19 @@ public class Main {
 	private static boolean gameOver = false;
 	private static ArrayList<int[]> v = new ArrayList<>();
 	private static Joueur winner;
+	private static Sound son;
 	
 	public static void main(String[] args) throws FileNotFoundException {
+		
+		son = new Sound(); 
+		son.start(); //musique du menu
+		
 		int[][] t = LireCoordonnées();
 		ListeVoisins();
 		
 		LireRegion();
 		LireTerritoire();
-		
+		music();
 		//Menu/*
 		StdDraw.setCanvasSize(800, 800);
 		StdDraw.setScale(0, 800);
@@ -62,7 +73,7 @@ public class Main {
 		StdDraw.setXscale(0, largeur);
 		StdDraw.setYscale(0, hauteur);
 		StdDraw.picture(largeur/2, hauteur/2, menuP);
-		
+		 
 		while(!choix) {
 			if(StdDraw.isMousePressed()) {
 				System.out.println(StdDraw.mouseX());
@@ -745,4 +756,18 @@ public class Main {
 		return nterritoires;
 	}
 	
+	public static void music() {
+		AudioPlayer MGP = AudioPlayer.player;
+		AudioStream BGM;
+		AudioData MD;
+		ContinuousAudioDataStream loop = null;
+		
+		try {
+			BGM = new AudioStream(new FileInputStream("Asterix Theme.mp3"));
+			MD = BGM.getData();
+		}catch(IOException error) {
+			
+		}
+		MGP.start(loop);
+	}
 }

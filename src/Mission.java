@@ -242,7 +242,8 @@ public class Mission {
 	
 	ArrayList<String> Mission = new ArrayList<>();
 	ArrayList<Joueur> joueurs = new ArrayList<>();
-	String mA = "Contrôler la plus grosse région + 1 autre région";
+	
+	String mA = "Contrôler la plus grosse région & 1 autre région";
 	String mB = "Contôler 3 régions et au moins 18 territoires";
 	String mD = "Contrôler 30 territoires";
 	String mE = "Détruire X";

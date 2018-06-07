@@ -59,7 +59,7 @@ public class Main {
 		
 		son = new Sound(); 
 		son.start(); //musique du menu
-		
+
 		int[][] t = LireCoordonnées();
 		ListeVoisins();
 		
@@ -667,10 +667,10 @@ public class Main {
 		
 	}
 	
-	public static void ListeVoisins() throws FileNotFoundException{
+	public static void ListeVoisins() throws FileNotFoundException{ //Generation des voisins par pays
 		int k = 0;
 		int i = 0;
-		int cache = 0;								//Pas du tout optimisé à cause de quick fixe :^)
+		int cache = 0;								
 		int[][] tab = new int[50][7];
 		int[] toarray;
 		Scanner sc = new Scanner(voisins);

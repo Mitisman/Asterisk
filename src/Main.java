@@ -653,9 +653,9 @@ public class Main {
 		StdDraw.clear();
 		StdDraw.setCanvasSize(1524, 1084);
 		if(winner.getWin()==true) {
-			StdDraw.picture(0.5, 0.5, finM);   //VICTOIRE PAR MISSION SECRETE
+			StdDraw.picture(0.5, 0.5, fin);   //VICTOIRE PAR MISSION SECRETE
 		}else {
-			StdDraw.picture(0.5, 0.5, fin);   //VICTOIRE PAR MISSION PRINCIPALE
+			StdDraw.picture(0.5, 0.5, finM);   //VICTOIRE PAR MISSION PRINCIPALE
 		}
 		
 		StdDraw.setXscale(0, 1524);

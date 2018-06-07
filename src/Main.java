@@ -65,7 +65,6 @@ public class Main {
 		
 		LireRegion();
 		LireTerritoire();
-		music();
 		//Menu/*
 		StdDraw.setCanvasSize(800, 800);
 		StdDraw.setScale(0, 800);

@@ -168,14 +168,7 @@ public class Partie {
 	}
 					
 	public boolean checkWin(Joueur player,Mission mission) {
-		ArrayList<Joueur> bonJoueur = new ArrayList<Joueur>();
-		bonJoueur.add(player);
-		Mission newMission = new Mission(bonJoueur);
-		if(newMission.isDone(player)) {
-			player.setWin();
-			return true;
-		}
-		if(newMission.mCCheck(player)){	
+		if(mission.isDone(player)) {
 			return true;
 		}
 		return false;

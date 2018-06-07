@@ -527,8 +527,9 @@ public class Main {
 				}
 			}
 		}
+		System.out.println("=============================================================");
 		Mission m = new Mission(joueur);
-		
+		System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 
 		StdDraw.clear();
 		StdDraw.enableDoubleBuffering();
@@ -607,6 +608,10 @@ public class Main {
 		
 		while(!gameOver) {
 			for(Joueur player : joueur) {
+				if(player.getTerritoire().size()==0) {
+					joueur.remove(player);
+					break;
+				}
 				int count=0;
 				for(Unite unit : player.getArmy()) {
 					if(unit.getType()=="Soldat") {
@@ -621,9 +626,14 @@ public class Main {
 					map.Maj(newGame,player,count);
 					count++;
 				}
+				
 				while(StdDraw.isMousePressed()){}
 				gameOver = newGame.checkWin(player,m);
-				winner = player;
+				if(gameOver) {
+					winner = player;
+					break;
+				}
+				
 			}
 		}
 		

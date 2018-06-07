@@ -626,17 +626,30 @@ public class Main {
 				winner = player;
 			}
 		}
-		//FIN DE LA PARTIE
 		
-		StdDraw.disableDoubleBuffering();
-		StdDraw.clear();
-		StdDraw.setCanvasSize(1524, 1084);
-		StdDraw.picture(0.5, 0.5, fin);   //mettre finM pour avoir l'image de fin si tu réussis la mission ;) donc récuperer ça d'une manière où d'une autre :D 
-		StdDraw.setXscale(0, 1524);
-		StdDraw.setYscale(0, 1084);
-		StdDraw.setFont(font);
-		StdDraw.textLeft(460, 975, winner.getNom());
-		StdDraw.show();
+		//FIN DE LA PARTIE
+		if(winner.getWin()==true) {
+			StdDraw.disableDoubleBuffering();
+			StdDraw.clear();
+			StdDraw.setCanvasSize(1524, 1084);
+			StdDraw.picture(0.5, 0.5, finM);   //VICTOIRE PAR MISSION SECRETE
+			StdDraw.setXscale(0, 1524);
+			StdDraw.setYscale(0, 1084);
+			StdDraw.setFont(font);
+			StdDraw.textLeft(460, 975, winner.getNom());
+			StdDraw.show();
+		}else {
+			StdDraw.disableDoubleBuffering();
+			StdDraw.clear();
+			StdDraw.setCanvasSize(1524, 1084);
+			StdDraw.picture(0.5, 0.5, fin);   //VICTOIRE PAR MISSION PRINCIPALE
+			StdDraw.setXscale(0, 1524);
+			StdDraw.setYscale(0, 1084);
+			StdDraw.setFont(font);
+			StdDraw.textLeft(460, 975, winner.getNom());
+			StdDraw.show();
+		}
+		
 	}
 	
 	public static void ListeVoisins() throws FileNotFoundException{

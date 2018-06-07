@@ -12,7 +12,7 @@ public class Partie {
 	public static int mvtsParTourCanon = 1;
 	public static int mvtsParTourCavalier = 3;
 	
-	public void attaqueEnnemi(Joueur player, ArrayList<Unite> bataillonAttaquant, Territoire territoireDepart, Territoire territoireDestination) {
+	public int attaqueEnnemi(Joueur player, ArrayList<Unite> bataillonAttaquant, Territoire territoireDepart, Territoire territoireDestination) {
 		
 		ArrayList<Unite> bataillonDefendant = new ArrayList<Unite>();
 		ArrayList<Unite> armeesDefenseur = territoireDestination.getArmy();
@@ -39,7 +39,8 @@ public class Partie {
 		}
 		Joueur playerDef = territoireDestination.getJoueur();
 		Joueur playerAtt = player;
-		affrontement(bataillonAttaquant,bataillonDefendant,playerAtt,playerDef,territoireDepart, territoireDestination);
+		int m = affrontement(bataillonAttaquant,bataillonDefendant,playerAtt,playerDef,territoireDepart, territoireDestination);
+		return m;
 	}
 	
 	public void deplacementTerritoireAllie(Joueur player, ArrayList<Unite> unitesADeplacer, Territoire territoireDepart,Territoire territoireDestination){
@@ -222,9 +223,10 @@ public class Partie {
 		return newArmy;
 	}
 	
-	public void affrontement(ArrayList<Unite> armyAtt,ArrayList<Unite> armyDef,Joueur playerAtt,Joueur playerDef, Territoire territoireDepart,Territoire territoireDestination) {
+	public int affrontement(ArrayList<Unite> armyAtt,ArrayList<Unite> armyDef,Joueur playerAtt,Joueur playerDef, Territoire territoireDepart,Territoire territoireDestination) {
 		int uniteDefDestroy = 0;
 		int uniteAttDestroy = 0;
+		int message = 0;
 		int debut = armyDef.size();
 		ArrayList<Unite> unitesVictorieuses = new ArrayList<Unite>();
 		System.out.println("ARMEE ATTAQUANT AVANT = " + playerAtt.getArmy().size() + " unite(s) !");
@@ -265,11 +267,13 @@ public class Partie {
 			System.out.println("Vous avez vaincu votre adversaire sans perdre d'unites !");
 			if(territoireDestination.getArmy().size()==0) {
 				System.out.println("Vous avez conquis un territoire !");
+				message = 1;
 				playerAtt.setTerritoiresConquis(playerAtt.getTerritoiresConquis()+1);
 				territoireDestination.setJoueur(playerAtt);
 				playerAtt.addTerritoire(territoireDestination);
 				deplacementTerritoireAllie(playerAtt,unitesVictorieuses,territoireDepart,territoireDestination);
 			}else {
+				message = 2;
 				System.out.println("Il reste des unités sur le territoire ennemi avant de le conquérir !");
 			}
 		}else{
@@ -282,6 +286,7 @@ public class Partie {
 		System.out.println("ARMEE DEFENDANT APRES = " + playerDef.getArmy().size() + " unite(s) !");
 		System.out.println("ARMEE TERRITOIRE ATT APRES = " + territoireDepart.getArmy().size() + " unite(s) !");
 		System.out.println("ARMEE TERRITOIRE DEF APRES = " + territoireDestination.getArmy().size() + " unite(s) !");
+		return message;
 	}
 	
 	public int strongerUnitPower(ArrayList<Unite> army, String type) {

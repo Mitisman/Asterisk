@@ -5,25 +5,25 @@ import java.util.ArrayList;
 import edu.princeton.cs.introcs.StdDraw;
 
 public class Carte {
-
+	
 	private final int largeur = 1643;
 	private final int hauteur = 675;
-	private final String carte = new String("risk.jpg");
-	private final String carteS = new String("riskF.jpg");
-	private final String choixn = new String("menuNArmee.jpg");
-	private final String choixnRs = new String("menuNArmeeS.jpg");
-	private final String choixCArmee = new String("menuCArmee.jpg");
-	private final String choixCArmeeRs = new String("lebug.jpg");
-	private final String choixCArmeeSs = new String("menuCArmeeSS.jpg");
-	private final String debut = new String("debut.jpg");
-	private final String choixCArmeeCs = new String("menuCArmeeCS.jpg");
-	private final String dep = new String("Deplacement.jpg");
-	private final String depR = new String("DeplacementR.jpg");
-	private final String debutS = new String("debutS.jpg");
-	private final String debutC = new String("debutC.jpg");
-	private final String debutO = new String("debutO.jpg");
-	private final String depD = new String("DeplacementD.jpg");
-	private final String choixArmeeOs = new String("menuCArmeeOBES.jpg");
+	private final String carte = new String("Carte/risk.jpg");
+	private final String carteS = new String("Carte/riskF.jpg");
+	private final String choixn = new String("Choix/menuNArmee.jpg");
+	private final String choixnRs = new String("Choix/menuNArmeeS.jpg");
+	private final String choixCArmee = new String("Choix/menuCArmee.jpg");
+	private final String choixCArmeeRs = new String("Choix/lebug.jpg");
+	private final String choixCArmeeSs = new String("Choix/menuCArmeeSS.jpg");
+	private final String debut = new String("Choix/debut.jpg");
+	private final String choixCArmeeCs = new String("Choix/menuCArmeeCS.jpg");
+	private final String dep = new String("Choix/Deplacement.jpg");
+	private final String depR = new String("Choix/DeplacementR.jpg");
+	private final String debutS = new String("Choix/debutS.jpg");
+	private final String debutC = new String("Choix/debutC.jpg");
+	private final String debutO = new String("Choix/debutO.jpg");
+	private final String depD = new String("Choix/DeplacementD.jpg");
+	private final String choixArmeeOs = new String("Choix/menuCArmeeOBES.jpg");
 	private static Font font = new Font("Comic Strip MN", Font.TRUETYPE_FONT, 20);
 	private static Font majuscule = new Font("Comic Strip MN", Font.TRUETYPE_FONT, 55);
 	private static Font minuscule = new Font("Comic Strip MN", Font.TRUETYPE_FONT, 17);
@@ -36,6 +36,7 @@ public class Carte {
 	private int[][] listeregion;
 	private ArrayList<int[]> listevoisins;
 	//private int N_joueur;
+
 
 
 	public Carte(int[][] r, ArrayList<int[]> v, ArrayList<String> t, ArrayList<String> re) {

@@ -127,7 +127,7 @@ public class Partie {
 			for(int i = 0;i<territoire.size();i++) {
 				Territoire pays = territoire.get(i);
 				int[] territoirep = pays.getPos();
-				if(territoirep[0]-15<=(int)StdDraw.mouseX() && (int)StdDraw.mouseX()<=territoirep[0]+15 && territoirep[1]-15<=(int)StdDraw.mouseY() && (int)StdDraw.mouseY()<=territoirep[1]+15) {
+				if(territoirep[0]-20<=(int)StdDraw.mouseX() && (int)StdDraw.mouseX()<=territoirep[0]+20 && territoirep[1]-20<=(int)StdDraw.mouseY() && (int)StdDraw.mouseY()<=territoirep[1]+20) {
 					int[] listeVoisins = pays.getVoisins();
 					System.out.println(pays.getNom());
 					System.out.println("TAILLE "+listeVoisins.length);

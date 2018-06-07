@@ -5,6 +5,7 @@ import java.util.Random;
 public class Mission {
 
 	public Mission (ArrayList<Joueur> j) {
+		System.out.println("--------------------------------------------------");
 		this.joueurs = j;
 		
 		this.Mission.add(mA);
@@ -12,11 +13,9 @@ public class Mission {
 		
 		switch (joueurs.size()) {
 		case 2:
-			Mission.add(mC);
 			Mission.add(mD);
 			break;
 		case 3:
-			Mission.add(mC);
 			Mission.add(mD);
 			Mission.add(mE);
 			Mission.add(mF);
@@ -63,6 +62,11 @@ public class Mission {
 	
 	public boolean isDone(Joueur player) {
 		boolean principal = mCCheck(player);
+		
+		if(principal) {
+			player.setWin();
+		}
+		
 		boolean secondaire = false;
 				if(player.getMission().trim().equals(mA.trim())) {
 					secondaire = mACheck(player);
@@ -83,7 +87,7 @@ public class Mission {
 				}
 		
 		
-		return principal && secondaire;
+		return principal || secondaire;
 	}
 	
 	public boolean mACheck(Joueur player) {
@@ -240,8 +244,7 @@ public class Mission {
 	ArrayList<Joueur> joueurs = new ArrayList<>();
 	String mA = "Contrôler la plus grosse région + 1 autre région";
 	String mB = "Contôler 3 régions et au moins 18 territoires";
-	String mC = "Conquérir tous les territoires";
-	String mD = "Contrôler 30 territoires / Contrôler la planète";
+	String mD = "Contrôler 30 territoires";
 	String mE = "Détruire X";
 	String mF = "Contrôler 18 territoires avec au moins 2 armées";
 	String mG = "Contrôler 24 territoires";

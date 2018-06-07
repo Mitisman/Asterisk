@@ -171,8 +171,11 @@ public class Partie {
 		ArrayList<Joueur> bonJoueur = new ArrayList<Joueur>();
 		bonJoueur.add(player);
 		Mission newMission = new Mission(bonJoueur);
-		if(newMission.isDone(player) && newMission.mCCheck(player)){
-			victory(player);	
+		if(newMission.isDone(player)) {
+			player.setWin();
+			return true;
+		}
+		if(newMission.mCCheck(player)){	
 			return true;
 		}
 		return false;

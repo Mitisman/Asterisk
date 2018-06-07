@@ -58,14 +58,14 @@ public class Main {
 	public static void main(String[] args) throws FileNotFoundException {
 		
 		son = new Sound(); 
-		son.start(); //musique du menu
+		son.start(); 			//Musique du menu
 
 		int[][] t = LireCoordonnées();
 		ListeVoisins();
 		
 		LireRegion();
 		LireTerritoire();
-		//Menu/*
+		//Menu
 		StdDraw.setCanvasSize(800, 800);
 		StdDraw.setScale(0, 800);
 		StdDraw.setCanvasSize(largeur, hauteur);
@@ -73,13 +73,8 @@ public class Main {
 		StdDraw.setYscale(0, hauteur);
 		StdDraw.picture(largeur/2, hauteur/2, menuP);
 		 
-		while(!choix) {
-			if(StdDraw.isMousePressed()) {
-				System.out.println(StdDraw.mouseX());
-				System.out.println(StdDraw.mouseY());			
-			}
-			
-			switch(choixpeau) {
+		while(!choix) {			
+			switch(choixpeau) { //Selection nombre de joueurs
 			case 1:
 				if(StdDraw.mouseX()>=226 && StdDraw.mouseX()<=245 && StdDraw.mouseY()>=243 && StdDraw.mouseY()<=281) {
 					StdDraw.picture(largeur/2, hauteur/2, menuNv1);
@@ -125,19 +120,16 @@ public class Main {
 				if(StdDraw.mouseX()>=305 && StdDraw.mouseX()<=881 && StdDraw.mouseY()>=285 && StdDraw.mouseY()<=324) {
 					StdDraw.picture(largeur/2, hauteur/2, menuPn);
 					if(StdDraw.isMousePressed()) {
-						System.out.println("NV PARTIE");
 						choixpeau = 1;
 					}
 				} else if(StdDraw.mouseX()>=238 && StdDraw.mouseX()<=953 && StdDraw.mouseY()>=186 && StdDraw.mouseY()<=227) {
 					StdDraw.picture(largeur/2, hauteur/2, menuPc);
 					if(StdDraw.isMousePressed()) {
-						System.out.println("CHARGEMENT");
 						choixpeau = 2;
 					}
 				} else if(StdDraw.mouseX()>=453 && StdDraw.mouseX()<=724 && StdDraw.mouseY()>=85 && StdDraw.mouseY()<=125) {
 					StdDraw.picture(largeur/2, hauteur/2, menuPq);
 					if(StdDraw.isMousePressed()) {
-						System.out.println("QUITTER");
 						System.exit(0);
 					}
 				} else {
@@ -453,11 +445,11 @@ public class Main {
 			}
 		}
 		
-		MélangeS(nomJ);
-		MélangeC(Couleur);
+		MélangeS(nomJ);    //Shuffle des noms
+		MélangeC(Couleur); //Shuffle des couleurs
 		
 		int i;
-		for(i = 0;i<nbj+nbia;i++) {
+		for(i = 0;i<nbj+nbia;i++) { 
 			if(i<nbj) {
 				Joueur J = new Joueur(nomJ[i], Couleur[i], false);
 				joueur.add(J);
@@ -474,7 +466,7 @@ public class Main {
 			} 
 		}
 		
-		switch (nbj+nbia){
+		switch (nbj+nbia){	//Attribution des unites selon nombre de joueurs
 		case 2:
 			for(Joueur player : joueur) {
 				for(i=1;i<=40;i++) {
@@ -520,12 +512,13 @@ public class Main {
 	}
 		
 		Carte map = new Carte(t, v, nterritoires, nregion);
-		map.initialisation();
+		map.initialisation();	//Lien entre les pays et leurs voisins respectifs via fichier .txt
 		Random rand = new Random();
 		ArrayList<Territoire> territoires = new ArrayList<>();
 		territoires.addAll(map.getTerritoire());
-		int l = 41;
-		while(l>0) {
+		
+		int l = 41; 
+		while(l>0) {	//Attribution aléatoire des territoires
 			for(Joueur player : joueur) {
 				int randomIndex = rand.nextInt((l + 1));
 				player.addTerritoire(territoires.get(randomIndex)); 
@@ -537,9 +530,8 @@ public class Main {
 				}
 			}
 		}
-		System.out.println("=============================================================");
-		Mission m = new Mission(joueur);
-		System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+		
+		Mission m = new Mission(joueur);	//Attribution aléatoire des missions (selon nombre de joueurs)
 
 		StdDraw.clear();
 		StdDraw.enableDoubleBuffering();
@@ -548,7 +540,8 @@ public class Main {
 		StdDraw.setYscale(0, 675);
 		StdDraw.picture(1643/2, 675/2, menuR);
 		StdDraw.setFont(font);
-		while(!start) {
+		
+		while(!start) {		//Affichage de la liste des joueurs et de leur couleur respective
 			StdDraw.setPenColor(Color.BLACK);
 			if(StdDraw.mouseX()>=1415 && StdDraw.mouseX()<=1631 && StdDraw.mouseY()<=69 && StdDraw.mouseY()>=7) {
 				StdDraw.clear();
@@ -585,13 +578,9 @@ public class Main {
 			StdDraw.show();
 		}
 		
-		for(i = joueur.get(0).getArmy().size()-1;i>=0;i--) {
-			System.out.println("SUR LE TERRAIN ???? " +joueur.get(0).getArmy().get(i).isOnField());
-		}
-		
 		ArrayList<Unite> u = new ArrayList<>();
-		for(i = joueur.size()-1;i>=0;i--) {
-			Joueur j = joueur.get(i);
+		for(i = joueur.size()-1;i>=0;i--) {		//Initialisation : 1 soldat par territoire										
+			Joueur j = joueur.get(i);			//et répartition aléatoire du reste des armées
 			territoires.clear();
 			territoires.addAll(j.getTerritoire());
 			u.clear();
@@ -611,19 +600,19 @@ public class Main {
 				u.get(k).setOnField(true);
 			} 
 		}
-		
+	
 		//DEMARRAGE DE LA PARTIE
+		
 		Partie newGame = new Partie();
-		//map.Start();
 		
 		while(!gameOver) {
-			for(Joueur player : joueur) {
-				if(player.getTerritoire().size()==0) {
+			for(Joueur player : joueur) {	//Alternance des joueurs (tours)
+				if(player.getTerritoire().size()==0) {	//Verification que le joueur n'est pas déjà éliminé
 					joueur.remove(player);
 					break;
 				}
 				int count=0;
-				for(Unite unit : player.getArmy()) {
+				for(Unite unit : player.getArmy()) {	//Reset des mouvements par tour de toutes les unités
 					if(unit.getType()=="Soldat") {
 						unit.setMvtRestants(3);
 					}else if(unit.getType()=="Cavalier") {
@@ -632,13 +621,14 @@ public class Main {
 						unit.setMvtRestants(1);
 					}
 				}
+				//Tant que le joueur n'a pas cliqué sur "Fin du tour"
 				while(!(StdDraw.isMousePressed() && StdDraw.mouseX()>=1233 && StdDraw.mouseY()<=1620 && StdDraw.mouseY()>=84 && StdDraw.mouseY()<=125)) {
 					map.Maj(newGame,player,count);
 					count++;
 				}
 				
 				while(StdDraw.isMousePressed()){}
-				gameOver = newGame.checkWin(player,m);
+				gameOver = newGame.checkWin(player,m);	//Vérification de victoire
 				if(gameOver) {
 					winner = player;
 					break;
@@ -653,9 +643,9 @@ public class Main {
 		StdDraw.clear();
 		StdDraw.setCanvasSize(1524, 1084);
 		if(winner.getWin()==true) {
-			StdDraw.picture(0.5, 0.5, fin);   //VICTOIRE PAR MISSION SECRETE
+			StdDraw.picture(0.5, 0.5, fin);   //ECRAN DE VICTOIRE PAR MISSION SECRETE
 		}else {
-			StdDraw.picture(0.5, 0.5, finM);   //VICTOIRE PAR MISSION PRINCIPALE
+			StdDraw.picture(0.5, 0.5, finM);   //ECRAN DE VICTOIRE PAR MISSION PRINCIPALE
 		}
 		
 		StdDraw.setXscale(0, 1524);
@@ -691,7 +681,7 @@ public class Main {
 		}
 	}
 	
-	  static void MélangeS(String[] tab) {
+	  static void MélangeS(String[] tab) {	//Shuffle missions
 	    Random alea = new Random();
 	    for (int i = tab.length - 1; i > 0; i--) {
 	      int index = alea.nextInt(i + 1);
@@ -701,7 +691,7 @@ public class Main {
 	    }
 	  }
 	
-	  static void MélangeC(Color[] tab) {
+	  static void MélangeC(Color[] tab) {	//Shuffle couleurs
 		Random alea = new Random();
 		for (int i = tab.length - 1; i > 0; i--) {
 			int index = alea.nextInt(i + 1);
@@ -711,7 +701,7 @@ public class Main {
 	    }
 	  }
 	
-	public static int[][] LireCoordonnées(){
+	public static int[][] LireCoordonnées(){	//Attribution des coordonnées de chaque pays à partir du fichier .txt
 		int i = 0;
 		int[][] tab = new int[42][2];
 		Scanner sc;
@@ -732,7 +722,7 @@ public class Main {
 		}
 	}
 	
-	public static ArrayList<String> LireRegion()  throws FileNotFoundException{
+	public static ArrayList<String> LireRegion()  throws FileNotFoundException{	//Lien entre territoires et régions
 		Scanner sc = new Scanner(fichier).useDelimiter("99");
 		while(sc.hasNextLine()) {
 			sc.next();
@@ -743,7 +733,7 @@ public class Main {
 		return nregion;
 	}
 	
-	public static ArrayList<String> LireTerritoire()  throws FileNotFoundException{
+	public static ArrayList<String> LireTerritoire()  throws FileNotFoundException{	//Lecture des territoires via fichier .txt
 		Scanner sc = new Scanner(fichier).useDelimiter("99");
 		while(sc.hasNextLine()) {
 			sc.next();

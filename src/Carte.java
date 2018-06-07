@@ -101,7 +101,7 @@ public class Carte {
 			while(j.getArmyAvailable().size()>0) {
 				for(int n =  j.getTerritoire().size() - 1; n>=0 ; n--) {
 					int[] territoire = j.getTerritoire().get(n).getPos();
-					if(territoire[0]-10<=(int)StdDraw.mouseX() && (int)StdDraw.mouseX()<=territoire[0]+10 && territoire[1]-10<=(int)StdDraw.mouseY() && (int)StdDraw.mouseY()<=territoire[1]+10) {
+					if(territoire[0]-20<=(int)StdDraw.mouseX() && (int)StdDraw.mouseX()<=territoire[0]+20 && territoire[1]-20<=(int)StdDraw.mouseY() && (int)StdDraw.mouseY()<=territoire[1]+20) {
 						if(StdDraw.isMousePressed()) {
 							j.getTerritoire().get(n).addArmy(j.getArmyAvailable().get(j.getArmyAvailable().size()-1)); //Ajoute l'unite sur le territoire
 							if(j.getArmyAvailable().get(j.getArmyAvailable().size()-1).getType()=="Soldat") {
@@ -131,7 +131,7 @@ public class Carte {
 					for(int i = 0;i<this.territoire.size();i++) {
 						Territoire t = territoire.get(i);
 						int[] territoire = t.getPos();
-						if(territoire[0]-10<=(int)StdDraw.mouseX() && (int)StdDraw.mouseX()<=territoire[0]+10 && territoire[1]-10<=(int)StdDraw.mouseY() && (int)StdDraw.mouseY()<=territoire[1]+10 ) {
+						if(territoire[0]-20<=(int)StdDraw.mouseX() && (int)StdDraw.mouseX()<=territoire[0]+20 && territoire[1]-20<=(int)StdDraw.mouseY() && (int)StdDraw.mouseY()<=territoire[1]+20 ) {
 							StdDraw.clear();
 							if(StdDraw.mouseX()>=1233 && StdDraw.mouseY()<=1620 && StdDraw.mouseY()>=84 && StdDraw.mouseY()<=125) {
 								StdDraw.picture(largeur/2, hauteur/2, carteS);
@@ -209,7 +209,7 @@ public class Carte {
 			Territoire attaquant = territoire.get(quickfix.get(0));
 			Territoire defenseur;
 			for(int k = quickfix.size()-1; k>0;k--) {
-				if(StdDraw.mouseX()>= this.territoire.get(quickfix.get(k)).getX()-10 && StdDraw.mouseX()<= this.territoire.get(quickfix.get(k)).getX()+10 && StdDraw.mouseY()>= this.territoire.get(quickfix.get(k)).getY()-10 && StdDraw.mouseY() <= this.territoire.get(quickfix.get(k)).getY()+10) {
+				if(StdDraw.mouseX()>= this.territoire.get(quickfix.get(k)).getX()-20 && StdDraw.mouseX()<= this.territoire.get(quickfix.get(k)).getX()+20 && StdDraw.mouseY()>= this.territoire.get(quickfix.get(k)).getY()-20 && StdDraw.mouseY() <= this.territoire.get(quickfix.get(k)).getY()+20) {
 					defenseur = this.territoire.get(quickfix.get(k));
 					for(int l = j.getTerritoire().size()-1;l>=0;l--) {
 						if(j.getTerritoire().get(l) == this.territoire.get(quickfix.get(k))) {

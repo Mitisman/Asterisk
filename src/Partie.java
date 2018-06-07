@@ -164,7 +164,7 @@ public class Partie {
 				}
 			}
 		}
-		deatharray.add(0);
+		deatharray.add(99);
 		return deatharray;
 	}
 					

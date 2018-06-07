@@ -2,10 +2,13 @@ import java.awt.Color;
 import java.awt.Font;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
 import edu.princeton.cs.introcs.StdDraw;
 
 public class Carte {
-	
+
 	private final int largeur = 1643;
 	private final int hauteur = 675;
 	private final String carte = new String("Carte/risk.jpg");
@@ -27,6 +30,8 @@ public class Carte {
 	private static Font font = new Font("Comic Strip MN", Font.TRUETYPE_FONT, 20);
 	private static Font majuscule = new Font("Comic Strip MN", Font.TRUETYPE_FONT, 55);
 	private static Font minuscule = new Font("Comic Strip MN", Font.TRUETYPE_FONT, 17);
+	private int m = 3;
+	private JOptionPane message = new JOptionPane();
 	protected ArrayList<Territoire> territoire;
 	private boolean reset = true;
 	private ArrayList<String> nterritoire;
@@ -36,7 +41,6 @@ public class Carte {
 	private int[][] listeregion;
 	private ArrayList<int[]> listevoisins;
 	//private int N_joueur;
-
 
 
 	public Carte(int[][] r, ArrayList<int[]> v, ArrayList<String> t, ArrayList<String> re) {
@@ -246,7 +250,8 @@ public class Carte {
 								 System.out.println(unity.getType());
 								 System.out.println("Mouvements restants : " + unity.getMvtRestants());
 							 }
-							 game.attaqueEnnemi(j,type, attaquant, defenseur);
+						  m = game.attaqueEnnemi(j,type, attaquant, defenseur);
+						  reset = true;
 						 }
 
 
@@ -290,6 +295,19 @@ public class Carte {
 				//Affichage de l'action ï¿½ faire ce tour
 				int x = j.getArmy().size() - j.getArmyAvailable().size();
 				StdDraw.textLeft(1205, 420,  " "+ x +" armï¿½e(s) sur " + j.getTerritoire().size() +" Terrritoires" );
+				if(m==0) {
+					StdDraw.show();
+					message.showMessageDialog(null, "T'as perdu :-(");
+					m = 3;
+				} else if(m==1) {
+					StdDraw.show();
+					message.showMessageDialog(null, "T'as gagné et conquis un nouveau territorie :-)");
+					m = 3;
+				} else if(m==2) {
+					StdDraw.show();
+					message.showMessageDialog(null, "T'as gagné mais il reste des armées :-)");
+					m = 3;
+				}
 			reset = false;
 		}
 		StdDraw.show();

@@ -756,18 +756,4 @@ public class Main {
 		return nterritoires;
 	}
 	
-	public static void music() {
-		AudioPlayer MGP = AudioPlayer.player;
-		AudioStream BGM;
-		AudioData MD;
-		ContinuousAudioDataStream loop = null;
-		
-		try {
-			BGM = new AudioStream(new FileInputStream("Asterix Theme.mp3"));
-			MD = BGM.getData();
-		}catch(IOException error) {
-			
-		}
-		MGP.start(loop);
-	}
 }

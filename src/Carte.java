@@ -124,9 +124,10 @@ public class Carte {
 
 			}
 		}
-		if(quickfix.get(0) != 0) {
+		if(quickfix.get(0) != 99) {
 			reset = true;
 			while(!StdDraw.isMousePressed()) {
+				System.out.println("aaaa");
 					for(int i = 0;i<this.territoire.size();i++) {
 						Territoire t = territoire.get(i);
 						int[] territoire = t.getPos();

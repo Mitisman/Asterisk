@@ -11,6 +11,7 @@ public class Joueur {
 	private String mission = new String();
 	private boolean ia;
 	private int territoiresConquis;
+	private boolean hasWon = false;
 	
 	public Joueur(String n, Color c, boolean IA) {
 		this.nom = n;
@@ -20,6 +21,13 @@ public class Joueur {
 		this.Territoires = new ArrayList<>();
 	}
 	
+	public boolean getWin() {
+		return hasWon;
+	}
+	
+	public void setWin() {
+		this.hasWon = true;
+	}
 	public void setTerritoiresConquis(int nbr) {
 		this.territoiresConquis = nbr;
 	}

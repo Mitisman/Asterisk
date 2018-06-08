@@ -142,6 +142,7 @@ public class Main {
 		StdDraw.picture(largeur/2, hauteur/2, menuNvIA);
 		StdDraw.setFont(font);
 		StdDraw.enableDoubleBuffering();
+		while(StdDraw.isMousePressed()){};
 		while(!choixIA) {
 			switch(nbj) {
 			case 1:

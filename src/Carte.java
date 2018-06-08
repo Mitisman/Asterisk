@@ -65,6 +65,8 @@ public class Carte {
 			StdDraw.filledCircle(territoire.get(h).getX(), territoire.get(h).getY(), 15);
 			StdDraw.setPenColor(Color.WHITE);
 			StdDraw.text(territoire.get(h).getX()-0.1, territoire.get(h).getY()-0.8, ""+ territoire.get(h).getArmy().size());
+			StdDraw.setPenColor(Color.BLACK);
+			StdDraw.circle(territoire.get(h).getX(), territoire.get(h).getY(), 15);
 		}
 		StdDraw.setFont(font);
 		StdDraw.setPenColor(j.getCouleur());
@@ -140,6 +142,8 @@ public class Carte {
 								StdDraw.filledCircle(listeregion[k][0], listeregion[k][1], 15);
 								StdDraw.setPenColor(Color.WHITE);
 								StdDraw.text(listeregion[k][0]-0.1, listeregion[k][1]-0.8, ""+ ta.getArmy().size());
+								StdDraw.setPenColor(Color.BLACK);
+								StdDraw.circle(listeregion[k][0], listeregion[k][1], 15);
 							}
 							for(int n = quickfix.size()-1;n>0;n--) {
 								if(this.territoire.get(quickfix.get(n)).getJoueur() == j) {		//Coloration des voisins ennemis en BLACK
@@ -258,6 +262,8 @@ public class Carte {
 						StdDraw.filledCircle(listeregion[k][0], listeregion[k][1], 15);
 						StdDraw.setPenColor(Color.WHITE);
 						StdDraw.text(listeregion[k][0]-0.1, listeregion[k][1]-0.8, ""+ ta.getArmy().size());
+						StdDraw.setPenColor(Color.BLACK);
+						StdDraw.circle(listeregion[k][0], listeregion[k][1], 15);
 					}
 				}
 				//Affichage du joueur, de sa couleur et de sa mission pendant qu'il joue

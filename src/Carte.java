@@ -320,6 +320,7 @@ public class Carte {
 			}
 		}
 
+		while(StdDraw.isMousePressed()) {};
 		if(t.getArmy().size()-1>0) {
 			uneUniteRestanteChoixUN=true;
 		}
@@ -541,6 +542,7 @@ public class Carte {
 	}
 
 	public ArrayList<Unite> choixTypeArmee(Territoire t, int n) {
+		while(StdDraw.isMousePressed()) {};
 		ArrayList<Unite> soldat = new ArrayList<>();
 		ArrayList<Unite> cavalier = new ArrayList<>();
 		ArrayList<Unite> obelix = new ArrayList<>();
